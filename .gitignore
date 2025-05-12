@@ -1,0 +1,58 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio folder
+.vs/
+
+# Rider project files
+.idea/
+
+# VS Code
+.vscode/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Others
+*.dbmdl
+*.bak
+*.backup
+*.tmp
+
+# Paket dependency manager
+.paket/
+paket-files/
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml
+
+# Azure Functions local settings
+local.settings.json
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# VS for Mac
+*.userprefs
+
+# JetBrains Rider
+*.sln.iml
+
+# Optional: Publish output
+publish/
