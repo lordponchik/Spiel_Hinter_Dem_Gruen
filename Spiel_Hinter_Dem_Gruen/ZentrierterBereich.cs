@@ -20,7 +20,7 @@ namespace Spiel_Hinter_Dem_Gruen
 
         public static int AktuellY { get { return _aktuellY; } set { _aktuellY = value; } }
 
-        public static void EinstellenInteraktivesMenue(string[] punkte, int auswahl)
+        public static void EinstellenInteraktivesMenue(string[] punkte, int auswahl, string text = "")
         {
             for (int i = 0; i < punkte.Length; i++)
             {
@@ -39,18 +39,20 @@ namespace Spiel_Hinter_Dem_Gruen
             }
 
         }
-        public static void EinstellenAusgabeInformation(string text)
+        public static void EinstellenAusgabeInformation(List<string> texte)
         {
-            int xPos = (EndeX - text.Length) / 2;
+            AktuellY -= texte.Count / 2;
 
-            Console.SetCursorPosition(xPos, AktuellY);
+            for (int i = 0; i < texte.Count; i++)
+            {
+                string text = texte[i];
+                int xPos = (EndeX - texte[i].Length) / 2;
+                int yPos = AktuellY + i;
 
-            Console.Write(text);
+                Console.SetCursorPosition(xPos, yPos);
+                Console.Write(text);
+            }
 
-            AktuellY += 1;
-        }
-        public static void WerteZurücksetzen()
-        {
             AktuellY = EndeY / 2;
         }
     }
