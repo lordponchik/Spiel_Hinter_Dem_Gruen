@@ -9,7 +9,10 @@ namespace Spiel_Hinter_Dem_Gruen
     class Szene
     {
         public string Titel { get; set; }
-        public string Name { get; set; } 
+        public string Name { get; set; }
         public List<string> Beschreibung { get; set; }
+
+        public List<string>[] gebietBeschreibungen { get; set; }
+        public List<Kaempfer> Gegner { get; set; }
     }
 }
