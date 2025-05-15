@@ -16,6 +16,8 @@ namespace Spiel_Hinter_Dem_Gruen
 
         public static void ZeichneTrenner()
         {
+            Console.Clear();
+
             fensterBreite = Console.WindowWidth;
             fensterHoehe = Console.WindowHeight;
 
