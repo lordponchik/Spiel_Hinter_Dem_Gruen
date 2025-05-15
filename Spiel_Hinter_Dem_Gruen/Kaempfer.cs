@@ -14,6 +14,12 @@ namespace Spiel_Hinter_Dem_Gruen
         public int KoerperTeilAngriff { get; protected set; }
         public int? KoerperTeilVerteidigung { get; protected set; }
 
+        public Kaempfer(string name, int leben)
+        {
+            Name = name;
+            Leben = leben;
+        }
+
         public abstract void WaehleAngriff();
         public virtual void WaehleVerteidigung()
         {
@@ -29,5 +35,7 @@ namespace Spiel_Hinter_Dem_Gruen
         {
             return Leben <= 0;
         }
+
+        public virtual void Rede() { }
     }
 }
