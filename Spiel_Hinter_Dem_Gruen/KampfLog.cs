@@ -13,7 +13,7 @@ namespace Spiel_Hinter_Dem_Gruen
             return new Dictionary<string, List<string>>
             {
                 {
-                    "titel", new List<string>{$"Kampf mit {gegner.Name}"}
+                    "titel", new List<string>{$"Kampf gegen {gegner.Name}"}
                 },
                  {
                     "trenner1", new List<string>{"---------------------------------"}
@@ -30,9 +30,7 @@ namespace Spiel_Hinter_Dem_Gruen
 
                 },
                 {
-                    "beschreibung", new List<string>{
-
-                    }
+                    "beschreibung", new List<string>()
                 },
 
 
