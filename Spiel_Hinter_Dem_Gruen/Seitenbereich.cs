@@ -24,6 +24,7 @@ namespace Spiel_Hinter_Dem_Gruen
 
         public static void EinstellenAusgabeInformation(string text)
         {
+ 
             Console.SetCursorPosition(AktuellX, AktuellY);
             Console.Write(text);
 
