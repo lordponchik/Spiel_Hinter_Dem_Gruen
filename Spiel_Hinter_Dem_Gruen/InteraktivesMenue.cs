@@ -10,21 +10,22 @@ namespace Spiel_Hinter_Dem_Gruen
     {
         private string[] _punkte;
         private int _auswahl = 0;
-        private Action<string[], int> _rendering;
+        private Action<string[], int, string> _rendering;
 
-        public InteraktivesMenue(string[] punkte, Action<string[], int> rendering)
+
+        public InteraktivesMenue(string[] punkte, Action<string[], int, string> rendering)
         {
             _punkte = punkte;
             _rendering = rendering;
         }
 
-        public int ZeigeUndWähle()
+        public int ZeigeUndWähle(string text = "")
         {
             ConsoleKey eingabe;
 
             do
             {
-                _rendering(_punkte, _auswahl);
+                _rendering(_punkte, _auswahl, text);
 
                 eingabe = Console.ReadKey(true).Key;
 
