@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,21 +22,26 @@ namespace Spiel_Hinter_Dem_Gruen
 
         public static int AktuellY { get { return _aktuellY; } set { _aktuellY = value; } }
 
-        public Seitenbereich()
+        public static void EinstellenAusgabeInformation(string text)
         {
-            _aktuellX = StartX;
-            _aktuellY = StartY;
-        }
+            Console.SetCursorPosition(AktuellX, AktuellY);
+            Console.Write(text);
 
-        public void Ausgeben(string[] text)
+            AktuellY += 1;
+        }
+        public static void Reset()
         {
-            for (int i = 0; i < text.Length; i++)
+            AktuellX = StartX;
+            AktuellY = StartY;
+            Console.SetCursorPosition(AktuellX, AktuellY);
+
+            for (int i = 0; i < EndeY; i++)
             {
-                Console.SetCursorPosition(AktuellX, AktuellY);
-                Console.WriteLine(text[i]);
-                AktuellX = StartX;
-                AktuellY++;
+                EinstellenAusgabeInformation("                                                     ");
             }
+            AktuellX = StartX;
+            AktuellY = StartY;
+           
         }
     }
 }
