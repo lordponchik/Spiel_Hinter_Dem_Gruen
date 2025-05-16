@@ -18,7 +18,7 @@ namespace Spiel_Hinter_Dem_Gruen
                 switch (AuswahlPunkteMenue())
                 {
                     case 0:
-                        NeuesSpiel(new Spieler(ZentrierterBereich.EinstellenAusgabeInformation, istErsterSpiel: true, leben: 30));
+                        NeuesSpiel();
                         break;
                     case 1:
                         Console.Clear();
@@ -39,7 +39,7 @@ namespace Spiel_Hinter_Dem_Gruen
 
             //  Ladebildschirm.ZeigeLadebildschirm();
             StatistikVerwaltung.LadeStatistic();
-            Thread.Sleep(4000);
+              Thread.Sleep(4000);
 
             Hauptmenue hauptmenue = new(new string[] { "Neues Spiel", "Ausgang" });
 
@@ -50,14 +50,14 @@ namespace Spiel_Hinter_Dem_Gruen
             return menue.ZeigeUndWähle();
         }
 
-        private static void NeuesSpiel(Spieler spieler)
+        private static void NeuesSpiel()
         {
 
            
             //  Ladebildschirm.ZeigeLadebildschirm();
             Seitenbereich.Reset();
 
-          
+           Spieler spieler =  new Spieler(ZentrierterBereich.EinstellenAusgabeInformation, istErsterSpiel: true, leben: 30);
 
             Reise(spieler);
 
@@ -91,6 +91,7 @@ namespace Spiel_Hinter_Dem_Gruen
                     ErsterKampf(spieler);
                     if (Spiel.IstSpielVorbei)
                     {
+                        Console.Clear();
                         Spiel.StarteSpiel();
                         return;
                     }
@@ -124,6 +125,7 @@ namespace Spiel_Hinter_Dem_Gruen
                                 
                                 if (Spiel.IstSpielVorbei)
                                 {
+                                    Console.Clear();
                                     Spiel.StarteSpiel();
                                     return;
                                 }
@@ -152,6 +154,12 @@ namespace Spiel_Hinter_Dem_Gruen
                 }
 
             }
+
+            Console.Clear();
+
+            ZentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Gewinn!"});
+            Thread.Sleep(2000);
+            Spiel.StarteSpiel();
         }
     }
 }
