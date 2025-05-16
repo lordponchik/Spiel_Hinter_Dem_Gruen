@@ -181,6 +181,7 @@ namespace Spiel_Hinter_Dem_Gruen
             if (Leben == 0)
             {
                 Console.Clear();
+                StatistikVerwaltung.SpeicherStatistic();
 
                 List<string> skelett = new List<string>{
 
