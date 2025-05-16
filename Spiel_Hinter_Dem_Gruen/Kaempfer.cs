@@ -56,5 +56,6 @@ namespace Spiel_Hinter_Dem_Gruen
             return geschadet;
         }
         public virtual void Rede() { }
+        public virtual void NimmBelohnungAuf(string name, List<Item> belohnungen) { }
     }
 }
