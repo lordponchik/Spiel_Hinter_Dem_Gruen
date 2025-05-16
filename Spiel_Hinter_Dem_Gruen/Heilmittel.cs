@@ -21,8 +21,7 @@ namespace Spiel_Hinter_Dem_Gruen
         public int Verwenden()
         {
 
-          //  if (Anzahl <= 0) return 0;
-
+            SpielerStatistik.VerwendeHeilMittel();
             Anzahl -= 1;
 
             int geheilt = _zufall.Next(MinHeilung, Wert + 1);
