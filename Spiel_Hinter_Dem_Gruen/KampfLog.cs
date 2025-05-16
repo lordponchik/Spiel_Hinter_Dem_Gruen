@@ -10,7 +10,15 @@ namespace Spiel_Hinter_Dem_Gruen
     {
         public static Dictionary<string, List<string>> ErstelleLog(Kaempfer spieler, Kaempfer gegner)
         {
-            return new Dictionary<string, List<string>>
+            Seitenbereich.Reset();
+
+            string spielerWaffe = "";
+            string gegnerWaffe = "";
+
+            if (spieler.AktiveWaffe != null) spielerWaffe = $"{spieler.AktiveWaffe.Name}: +{spieler.AktiveWaffe.Wert} Max-Schaden";
+            if (gegner.AktiveWaffe != null) gegnerWaffe = $"{gegner.AktiveWaffe.Name}: +{gegner.AktiveWaffe.Wert} Max-Schaden";
+
+            Dictionary<string, List<string>> logs = new Dictionary<string, List<string>>
             {
                 {
                     "titel", new List<string>{$"Kampf gegen {gegner.Name}"}
@@ -20,13 +28,17 @@ namespace Spiel_Hinter_Dem_Gruen
 
                 },
                 {
-                    $"{spieler.Name}", new List<string>{$"Name: {spieler.Name}", $"HP: {spieler.Leben}"}
+                    $"{spieler.Name}", new List<string>{$"Name: {spieler.Name}", $"HP: {spieler.Leben}", $"Max-Schaden: {spieler.Schaden}"}
+                },
+                                 {
+                    "trenner2", new List<string>{"---------------------------------"}
+
                 },
                 {
-                    $"{gegner.Name}", new List<string>{$"Name: {gegner.Name}", $"HP: {gegner.Leben}"}
+                    $"{gegner.Name}", new List<string>{$"Name: {gegner.Name}", $"HP: {gegner.Leben}", $"Max-Schaden: {gegner.Schaden}"}
                 },
                  {
-                    "trenner2", new List<string>{"---------------------------------"}
+                    "trenner3", new List<string>{"---------------------------------"}
 
                 },
                 {
@@ -35,6 +47,11 @@ namespace Spiel_Hinter_Dem_Gruen
 
 
             };
+
+            if (spielerWaffe.Length != 0) logs[spieler.Name].Add($"{spielerWaffe}");
+            if (gegnerWaffe.Length != 0) logs[gegner.Name].Add($"{gegnerWaffe}");
+
+            return logs;
         }
     }
 }
