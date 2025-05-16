@@ -11,7 +11,7 @@ namespace Spiel_Hinter_Dem_Gruen
     class Kampf
     {
 
-        private static Dictionary<string, List<string>>? _kampfLog = null;
+        private static Dictionary<string, List<string>> _kampfLog = new Dictionary<string, List<string>>();
 
         public static bool Rundenkampf(Kaempfer spieler, Kaempfer gegner)
         {
@@ -19,6 +19,40 @@ namespace Spiel_Hinter_Dem_Gruen
             _kampfLog = KampfLog.ErstelleLog(spieler, gegner);
 
             while (!spieler.IstBesiegt() && !gegner.IstBesiegt())
+            {
+
+                Seitenbereich.Reset();
+
+                AktualisiereKampfLog();
+
+                spieler.WaehleAngriff();
+                spieler.WaehleVerteidigung();
+
+                gegner.WaehleAngriff();
+                gegner.WaehleVerteidigung();
+
+                BerechnungSchaden(spieler, gegner, _kampfLog);
+                BerechnungSchaden(gegner, spieler, _kampfLog);
+
+                Seitenbereich.Reset();
+
+                AktualisiereKampfLog();
+
+            }
+
+            if(gegner.Leben == 0)
+            {
+               if(gegner is Gegner g) spieler.NimmBelohnungAuf(spieler.Name, g.Auszeichnung);
+               if (gegner is Tier t) spieler.NimmBelohnungAuf(spieler.Name, t.Auszeichnung);
+
+
+                SpielerStatistik.ErhoeheSiege();
+            }
+
+            return gegner.Leben == 0;
+
+
+            void AktualisiereKampfLog()
             {
                 foreach (KeyValuePair<string, List<string>> eintrag in _kampfLog)
                 {
@@ -43,23 +77,7 @@ namespace Spiel_Hinter_Dem_Gruen
                         }
                     }
                 }
-
-                spieler.WaehleAngriff();
-                spieler.WaehleVerteidigung();
-
-                gegner.WaehleAngriff();
-                gegner.WaehleVerteidigung();
-
-                BerechnungSchaden(spieler, gegner, _kampfLog);
-                BerechnungSchaden(gegner, spieler, _kampfLog);
-
-
-
-                Seitenbereich.Reset();
             }
-
-            return gegner.Leben == 0;
-
         }
 
         private static void BerechnungSchaden(Kaempfer angreifer, Kaempfer verteidiger, Dictionary<string, List<string>> kampflog)
@@ -72,7 +90,7 @@ namespace Spiel_Hinter_Dem_Gruen
             }
             else
             {
-                int schaden = 10;
+                int schaden = angreifer.VerursachterSchaden();
 
                 kampflog["beschreibung"].Add($"{angreifer.Name} trifft {verteidiger.Name} für {schaden} Schaden!");
 
@@ -108,7 +126,7 @@ namespace Spiel_Hinter_Dem_Gruen
             }
             while (key != ConsoleKey.Enter);
 
-            
+
         }
     }
 }
