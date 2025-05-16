@@ -12,6 +12,6 @@ namespace Spiel_Hinter_Dem_Gruen
 
         public static readonly Waffe knorpelknacker = new Waffe("Knorpelknacker", schaden: 5);
 
-        public static readonly Waffe rostklaue = new Waffe("Rostklaue", schaden: 5);
+        public static readonly Waffe rostklaue = new Waffe("Rostklaue", schaden: 10);
     }
 }
