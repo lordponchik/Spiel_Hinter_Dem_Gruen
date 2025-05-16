@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spiel_Hinter_Dem_Gruen.Statistik;
+using Spiel_Hinter_Dem_Gruen.UI;
 
-namespace Spiel_Hinter_Dem_Gruen
+namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Spiel
     {
@@ -72,7 +74,7 @@ namespace Spiel_Hinter_Dem_Gruen
             KonsolenTrenner.ZeichneTrenner();
 
             Kampf.Rundenkampf(spieler, gegner);
-            if (Spiel.IstSpielVorbei) return;
+            if (IstSpielVorbei) return;
             KonsolenTrenner.ZeichneTrenner();
         }
 
@@ -90,10 +92,10 @@ namespace Spiel_Hinter_Dem_Gruen
                 if (spieler.IstErsterSpiel)
                 {
                     ErsterKampf(spieler);
-                    if (Spiel.IstSpielVorbei)
+                    if (IstSpielVorbei)
                     {
                         Console.Clear();
-                        Spiel.StarteSpiel();
+                        StarteSpiel();
                         return;
                     }
                     spieler.IstErsterSpiel = false;
@@ -124,10 +126,10 @@ namespace Spiel_Hinter_Dem_Gruen
                                 gegner[i].Rede();
                                 gegnerBesiegt = Kampf.Rundenkampf(spieler, gegner[i]);
                                 
-                                if (Spiel.IstSpielVorbei)
+                                if (IstSpielVorbei)
                                 {
                                     Console.Clear();
-                                    Spiel.StarteSpiel();
+                                    StarteSpiel();
                                     return;
                                 }
                                 
@@ -139,7 +141,7 @@ namespace Spiel_Hinter_Dem_Gruen
                                 spieler.ZeigeInventar();
                                 break;
                             case 2:
-                                Spiel.IstSpielVorbei = true;
+                                IstSpielVorbei = true;
                                 Console.Clear();
                                 StatistikVerwaltung.SpeicherStatistic();
                                 ZentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Für Schwache ist hier kein Platz – verschwinde!" });
@@ -160,7 +162,7 @@ namespace Spiel_Hinter_Dem_Gruen
 
             ZentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Gewinn!"});
             Thread.Sleep(2000);
-            Spiel.StarteSpiel();
+            StarteSpiel();
         }
     }
 }

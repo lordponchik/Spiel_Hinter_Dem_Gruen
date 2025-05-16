@@ -6,8 +6,11 @@ using System.Runtime.ConstrainedExecution;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using Spiel_Hinter_Dem_Gruen.Items;
+using Spiel_Hinter_Dem_Gruen.Statistik;
+using Spiel_Hinter_Dem_Gruen.UI;
 
-namespace Spiel_Hinter_Dem_Gruen
+namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Spieler : Kaempfer
     {
@@ -296,7 +299,7 @@ namespace Spiel_Hinter_Dem_Gruen
                 {
                     case "Heilmittel":
                         ErhalteHeilung(((Heilmittel)Inventar[gewaehlteGruppe][auswahl]).Verwenden());
-                        if ((Inventar[gewaehlteGruppe][auswahl] is Heilmittel heilung && heilung.Anzahl == 0)) { Inventar["Heilmittel"].Remove(heilung); }
+                        if (Inventar[gewaehlteGruppe][auswahl] is Heilmittel heilung && heilung.Anzahl == 0) { Inventar["Heilmittel"].Remove(heilung); }
                         ZeigeInformation();
                         break;
                     case "Waffe":

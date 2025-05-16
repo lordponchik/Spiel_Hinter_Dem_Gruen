@@ -4,9 +4,11 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spiel_Hinter_Dem_Gruen.Items;
+using Spiel_Hinter_Dem_Gruen.UI;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Spiel_Hinter_Dem_Gruen
+namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Weltkarte
     {

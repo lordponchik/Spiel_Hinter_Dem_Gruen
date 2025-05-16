@@ -5,8 +5,10 @@ using System.Reflection.Metadata;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using Spiel_Hinter_Dem_Gruen.Statistik;
+using Spiel_Hinter_Dem_Gruen.UI;
 
-namespace Spiel_Hinter_Dem_Gruen
+namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Kampf
     {

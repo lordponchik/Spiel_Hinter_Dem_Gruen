@@ -5,8 +5,10 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Spiel_Hinter_Dem_Gruen.Items;
+using Spiel_Hinter_Dem_Gruen.UI;
 
-namespace Spiel_Hinter_Dem_Gruen
+namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Gegner : Kaempfer
     {
