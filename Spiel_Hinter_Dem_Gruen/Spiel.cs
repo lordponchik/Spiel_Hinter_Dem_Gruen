@@ -64,7 +64,7 @@ namespace Spiel_Hinter_Dem_Gruen
         {
             Kampf.Kampfanweisung();
 
-            Tier gegner = new Tier("die Ratte", 10);
+            Tier gegner = new Tier("Ratte", 10, 5);
 
             KonsolenTrenner.ZeichneTrenner();
 
@@ -114,13 +114,13 @@ namespace Spiel_Hinter_Dem_Gruen
 
                         int auswahl = spieler.ZeigeMenue(gegner[i].Name);
 
-
                         switch (auswahl)
                         {
                             case 0:
                                 Fussbereich.Reset();
                                 gegner[i].Rede();
                                 gegnerBesiegt = Kampf.Rundenkampf(spieler, gegner[i]);
+                                
                                 if (Spiel.IstSpielVorbei)
                                 {
                                     Spiel.StarteSpiel();
@@ -131,6 +131,8 @@ namespace Spiel_Hinter_Dem_Gruen
 
                                 break;
                             case 1:
+                                Fussbereich.Reset();
+                                spieler.ZeigeInventar();
                                 break;
                             case 2:
                                 break;
