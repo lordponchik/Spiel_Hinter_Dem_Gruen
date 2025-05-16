@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Spiel_Hinter_Dem_Gruen
+namespace Spiel_Hinter_Dem_Gruen.UI
 {
     class Startbildschirm : SpielNameBasis
     {
         protected override void SetPositionSpielName(int anzahlIntroZeichen, int anzahlIntroZeilen, int yPosIndex)
         {
             int xPos = (Console.WindowWidth - anzahlIntroZeichen) / 2;
-            int yPos = (Console.WindowHeight / 2) - (anzahlIntroZeilen / 2) + yPosIndex;
+            int yPos = Console.WindowHeight / 2 - anzahlIntroZeilen / 2 + yPosIndex;
 
             Console.SetCursorPosition(xPos, yPos);
         }
