@@ -36,9 +36,10 @@ namespace Spiel_Hinter_Dem_Gruen
             AktuellY = StartY;
             Console.SetCursorPosition(AktuellX, AktuellY);
 
+
             for (int i = 0; i < EndeY; i++)
             {
-                EinstellenAusgabeInformation("                                                     ");
+                EinstellenAusgabeInformation("                                                            ");
             }
             AktuellX = StartX;
             AktuellY = StartY;
