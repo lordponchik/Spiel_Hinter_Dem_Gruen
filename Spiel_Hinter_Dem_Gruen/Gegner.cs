@@ -11,20 +11,20 @@ namespace Spiel_Hinter_Dem_Gruen
     class Gegner : Kaempfer
     {
         private static readonly string[] Koerperteile = { "Kopf", "Rumpf", "Beine" };
-        private static Random rand = new Random();
+        private static Random _zufall = new Random();
         public List<string> Sprechzeilen { get; }
 
-        public Gegner(string name, int leben, List<string> sprechzeilen) : base(name,leben)
+        public Gegner(string name, int leben, int schaden, List<string> sprechzeilen, Waffe? waffe = null) : base(name,leben, schaden, waffe)
         {
             Sprechzeilen = sprechzeilen;
         }
         public override void WaehleAngriff()
         {
-            KoerperTeilAngriff = rand.Next(0, Koerperteile.Length);
+            KoerperTeilAngriff = _zufall.Next(0, Koerperteile.Length);
         }
         public override void WaehleVerteidigung()
         {
-            KoerperTeilVerteidigung = rand.Next(0, Koerperteile.Length);
+            KoerperTeilVerteidigung = _zufall.Next(0, Koerperteile.Length);
         }
 
         public override void Rede()
@@ -32,5 +32,7 @@ namespace Spiel_Hinter_Dem_Gruen
             Kopfbereich.Reset();
             Kopfbereich.EinstellenAusgabeInformation(Sprechzeilen);
         }
+
+
     }
 }
