@@ -11,7 +11,7 @@ namespace Spiel_Hinter_Dem_Gruen
         private static readonly string[] Koerperteile = { "Kopf", "Rumpf", "Beine" };
         private static Random rand = new Random();
 
-        public Tier(string name, int leben):base(name, leben) {
+        public Tier(string name, int leben, int schaden):base(name, leben, schaden) {
 
         }
         public override void WaehleAngriff()
