@@ -31,13 +31,13 @@ namespace Spiel_Hinter_Dem_Gruen
         }
         private static int AuswahlPunkteMenue()
         {
-            //  Ladebildschirm.ZeigeLadebildschirm(3);
+            Ladebildschirm.ZeigeLadebildschirm();
 
-            //  Startbildschirm startbildschirm = new Startbildschirm();
+            Startbildschirm startbildschirm = new Startbildschirm();
 
-            //startbildschirm.ZeigeSpielName();
+            startbildschirm.ZeigeSpielName();
 
-            //  Ladebildschirm.ZeigeLadebildschirm();
+            Ladebildschirm.ZeigeLadebildschirm();
             StatistikVerwaltung.LadeStatistic();
               Thread.Sleep(4000);
 
@@ -54,7 +54,7 @@ namespace Spiel_Hinter_Dem_Gruen
         {
 
            
-            //  Ladebildschirm.ZeigeLadebildschirm();
+           Ladebildschirm.ZeigeLadebildschirm();
             Seitenbereich.Reset();
 
            Spieler spieler =  new Spieler(ZentrierterBereich.EinstellenAusgabeInformation, istErsterSpiel: true, leben: 30);
@@ -84,6 +84,7 @@ namespace Spiel_Hinter_Dem_Gruen
             foreach (string szene in weltkarte._ortListe)
             {
 
+                Ladebildschirm.ZeigeLadebildschirm();
                 weltkarte.ZeigeKapitel(szene);
 
                 if (spieler.IstErsterSpiel)
