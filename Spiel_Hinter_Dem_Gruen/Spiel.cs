@@ -15,19 +15,17 @@ namespace Spiel_Hinter_Dem_Gruen
         {
             IstSpielVorbei = false;
 
-            switch (AuswahlPunkteMenue())
-            {
-                case 0:
-                    NeuesSpiel();
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    Console.Clear();
-                    ZentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Für Schwache ist hier kein Platz – verschwinde!" });
-                    Console.WriteLine();
-                    return;
-            }
+                switch (AuswahlPunkteMenue())
+                {
+                    case 0:
+                        NeuesSpiel(new Spieler(ZentrierterBereich.EinstellenAusgabeInformation, istErsterSpiel: true, leben: 30));
+                        break;
+                    case 1:
+                        Console.Clear();
+                        ZentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Für Schwache ist hier kein Platz – verschwinde!" });
+                        Console.WriteLine();
+                        return;
+                }
 
 
         }
@@ -40,21 +38,26 @@ namespace Spiel_Hinter_Dem_Gruen
             //startbildschirm.ZeigeSpielName();
 
             //  Ladebildschirm.ZeigeLadebildschirm();
+            StatistikVerwaltung.LadeStatistic();
+            Thread.Sleep(4000);
 
-            Hauptmenue hauptmenue = new(new string[] { "Neues Spiel", "Laden", "Ausgang" });
+            Hauptmenue hauptmenue = new(new string[] { "Neues Spiel", "Ausgang" });
 
             hauptmenue.ZeigeSpielName();
+           
             InteraktivesMenue menue = new(hauptmenue.PunkteMenue, ZentrierterBereich.EinstellenInteraktivesMenue);
 
             return menue.ZeigeUndWähle();
         }
 
-        private static void NeuesSpiel()
+        private static void NeuesSpiel(Spieler spieler)
         {
+
+           
             //  Ladebildschirm.ZeigeLadebildschirm();
             Seitenbereich.Reset();
 
-            Spieler spieler = new Spieler(ZentrierterBereich.EinstellenAusgabeInformation, istErsterSpiel: true, leben: 30);
+          
 
             Reise(spieler);
 
@@ -76,14 +79,12 @@ namespace Spiel_Hinter_Dem_Gruen
         private static void Reise(Spieler spieler)
         {
 
-            Weltkarte weltkarte = new Weltkarte(spieler.AktuellerOrtId);
+            Weltkarte weltkarte = new Weltkarte();
 
             foreach (string szene in weltkarte._ortListe)
             {
 
-
                 weltkarte.ZeigeKapitel(szene);
-
 
                 if (spieler.IstErsterSpiel)
                 {
@@ -126,7 +127,7 @@ namespace Spiel_Hinter_Dem_Gruen
                                     Spiel.StarteSpiel();
                                     return;
                                 }
-
+                                
                                 Kopfbereich.Reset();
 
                                 break;
@@ -135,10 +136,9 @@ namespace Spiel_Hinter_Dem_Gruen
                                 spieler.ZeigeInventar();
                                 break;
                             case 2:
-                                break;
-                            case 3:
                                 Spiel.IstSpielVorbei = true;
                                 Console.Clear();
+                                StatistikVerwaltung.SpeicherStatistic();
                                 ZentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Für Schwache ist hier kein Platz – verschwinde!" });
                                 Console.WriteLine();
                                 return;
