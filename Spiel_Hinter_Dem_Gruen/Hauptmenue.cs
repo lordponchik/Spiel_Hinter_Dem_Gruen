@@ -30,6 +30,7 @@ namespace Spiel_Hinter_Dem_Gruen
 
         public Hauptmenue(string[] punkteMenue)
         {
+           
             _punkteMenue = punkteMenue;
         }
     }
