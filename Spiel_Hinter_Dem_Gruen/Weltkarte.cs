@@ -57,10 +57,10 @@ namespace Spiel_Hinter_Dem_Gruen
                           {
                             new Gegner("Grubnag der Gierige", 20, schaden: 5, new List<string>{ "Grubnag der Gierige\n", "\n", "Du stinkst nicht besser als die Ratte. Mal sehen, wie du schmeckst!\n", "Grubnag will dein Herz... zum Frühstück!\n" }),
                             new Gegner("Brakzahn der Brutale", 25, schaden: 7, new List<string>{ "Brakzahn der Brutale\n", "\n", "Ich hab mit einem Finger mehr Gegner zerschmettert, als du Haare aufm Kopf hast!\n", "Komm näher, Kleiner. Ich will sehen, wie schnell du blutest.\n" }),
-                            new Gegner("Xargash Flammenatem", 30,schaden: 10, new List<string>{ "Xargash Flammenatem\n", "\n", "Feuer reinigt. Bist du bereit für die Flammen?\n", "Ich werde dich grillen – schön knusprig!\n" }),
+                            new Gegner("Xargash Flammenatem", 30,schaden: 10, new List<string>{ "Xargash Flammenatem\n", "\n", "Feuer reinigt. Bist du bereit für die Flammen?\n", "Ich werde dich grillen – schön knusprig!\n" }, waffe: ItemDatenbank.knorpelknacker ),
                             new Gegner("Mok der Verstummte", 35,schaden: 12, new List<string>{ "Mok der Verstummte\n", "\n", "(Er sagt kein Wort. Nur ein knurrender Laut. Dann ein tiefer Atemzug.)\n", "(Er zeigt stumm auf deine Kehle – und macht eine schneidende Geste.)\n" }),
                             new Gegner("Kror Eisenfaust", 40,schaden: 13, new List<string>{ "Kror Eisenfaust\n", "\n", "Eisen redet nicht. Es zerschmettert.\n", "Deine Knochen? Nur neue Trophäen für meine Wand.\n" }),
-                            new Gegner("Drog’Marr der Wächter", 45,schaden: 15, new List<string>{ "Drog’Marr der Wächter\n", "\n", "Ich habe hunderte kommen sehen... keiner ging.\n", "Beweise, dass du mehr bist als nur ein weiterer Verstoßener.\n" }, waffe: ItemDatenbank.knorpelknacker ),
+                            new Gegner("Drog’Marr der Wächter", 45,schaden: 15, new List<string>{ "Drog’Marr der Wächter\n", "\n", "Ich habe hunderte kommen sehen... keiner ging.\n", "Beweise, dass du mehr bist als nur ein weiterer Verstoßener.\n" }, waffe: ItemDatenbank.rostklaue ),
                           }
                 }
             },
