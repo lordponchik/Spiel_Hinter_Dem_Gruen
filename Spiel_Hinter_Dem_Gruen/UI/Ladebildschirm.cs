@@ -12,33 +12,34 @@ namespace Spiel_Hinter_Dem_Gruen.UI
         public static void ZeigeLadebildschirm(int wiederholungen = 1)
         {
             Console.Clear();
+
             int x = Console.WindowWidth / 2 - _ladenText.Length / 2;
             int y = Console.WindowHeight / 2;
 
             while (wiederholungen > 0)
             {
-                Console.SetCursorPosition(x, y);
 
-                for (int i = 0; i < _ladenText.Length; i++)
-                {
-                    Console.Write(_ladenText[i]);
-                    Thread.Sleep(50);
-                }
+                ZeigeTextAnimiert(x, y, true);
 
                 Thread.Sleep(1000);
 
-                Console.SetCursorPosition(x, y);
-
-                for (int i = 0; i < _ladenText.Length; i++)
-                {
-                    Console.Write(" ");
-                    Thread.Sleep(50);
-                }
+                ZeigeTextAnimiert(x,y);
 
                 wiederholungen--;
             }
 
             Console.Clear();
+        }
+
+        private static void ZeigeTextAnimiert(int x, int y, bool sichtbar = false)
+        {
+            Console.SetCursorPosition(x, y);
+
+            foreach (char zeichnen in _ladenText)
+            {
+                Console.Write(sichtbar ? zeichnen : " ");
+                Thread.Sleep(50);
+            }
         }
     }
 }
