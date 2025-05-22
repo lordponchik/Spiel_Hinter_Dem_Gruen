@@ -8,14 +8,16 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 {
     interface IZeichenbereich
     {
-        public static int StartX { get; }
-        public static int StartY { get; }
+        int StartX { get; }
+        int StartY { get; }
 
-        public static int EndeX { get; }
-        public static int EndeY { get; }
+        int EndeX { get; }
+        int EndeY { get; }
 
-        public static int AktuellX { get; set; }
+        int AktuellX { get; set; }
+        int AktuellY { get; set; }
 
-        public static int AktuellY { get; set; }
+        int Breite { get; }
+        int Hoehe { get; }
     }
 }
