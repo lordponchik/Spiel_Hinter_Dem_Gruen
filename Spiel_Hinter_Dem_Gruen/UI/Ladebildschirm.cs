@@ -27,7 +27,7 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 
                 wiederholungen--;
             }
-
+            
             Console.Clear();
         }
 
