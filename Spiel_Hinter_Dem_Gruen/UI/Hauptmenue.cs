@@ -6,32 +6,41 @@ using System.Threading.Tasks;
 
 namespace Spiel_Hinter_Dem_Gruen.UI
 {
-    class Hauptmenue : SpielNameBasis
+    class Hauptmenue : SpielTitelBasis
     {
-        private string[] _punkteMenue;
+        
+
+        private string[] _punkteMenue = { "Neues Spiel", "Ausgang" };
+        private ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
 
         public string[] PunkteMenue { get { return _punkteMenue; } }
 
-        protected override void SetPositionSpielName(int anzahlIntroZeichen, int anzahlIntroZeilen, int yPosIndex)
+        protected override void SetzePositionSpielTitel(int anzahlTitelZeichen, int anzahlTitelZeilen, int aktuellY)
         {
-            int xPos = (Console.WindowWidth - anzahlIntroZeichen) / 2;
-            int yPos = anzahlIntroZeilen + yPosIndex;
+            int xPos = (Console.WindowWidth - anzahlTitelZeichen) / 2;
+            int yPos = anzahlTitelZeilen + aktuellY;
 
             Console.SetCursorPosition(xPos, yPos);
         }
 
-        protected override void SetPositionExtraText(int anzahlIntroZeichen, int anzahlIntroExtraZeichen)
+        protected override void SetzePositionSubTitle(int anzahlTitelZeichen, int anzahlSubTitleZeichen)
         {
-            int xPos = (Console.WindowWidth - anzahlIntroZeichen) / 2 + (anzahlIntroZeichen - anzahlIntroExtraZeichen);
+            int xPos = (Console.WindowWidth - anzahlTitelZeichen) / 2 + (anzahlTitelZeichen - anzahlSubTitleZeichen);
             int yPos = Console.GetCursorPosition().Top + 2;
 
             Console.SetCursorPosition(xPos, yPos);
         }
 
-        public Hauptmenue(string[] punkteMenue)
+        public Hauptmenue()
         {
-           
-            _punkteMenue = punkteMenue;
+            ZeigeSpielName();
+        }
+
+        public int Auswahl()
+        {
+            InteraktivesMenue menue = new(_punkteMenue, _zentrierterBereich.EinstellenInteraktivesMenue);
+
+            return menue.ZeigeUndWähle(istZentriert: true);
         }
     }
 }
