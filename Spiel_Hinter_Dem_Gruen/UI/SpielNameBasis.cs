@@ -3,36 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spiel_Hinter_Dem_Gruen.Ressourcen;
 
 namespace Spiel_Hinter_Dem_Gruen.UI
 {
-    abstract class SpielNameBasis
+    abstract class SpielTitelBasis
     {
-        protected static readonly string[][] introText = {
-        new string[]{
-" _   _ _       _            ",
-"| | | (_)     | |           ",
-"| |_| |_ _ __ | |_ ___ _ __ ",
-"|  _  | | '_ \\| __/ _ \\ '__|",
-"| | | | | | | | ||  __/ |   ",
-"\\_| |_/_|_| |_|\\__\\___|_|   ",},
-        new string[]{
-"     _                ",
-"    | |               ",
-"  __| | ___ _ __ ___  ",
-" / _` |/ _ \\ '_ ` _ \\ ",
-"| (_| |  __/ | | | | |",
-" \\__,_|\\___|_| |_| |_|",},
-        new string[]{
-" _____      _   _       ",
-"|  __ \\    (_) (_)      ",
-"| |  \\/_ __ _   _ _ __  ",
-"| | __| '__| | | | '_ \\ ",
-"| |_\\ \\ |  | |_| | | | |",
-" \\____/_|   \\__,_|_| |_|",},
-    };
-
-        protected static readonly string introExtraText = "Auf der Suche nach dem Verbotenen...";
+        private static SpielNameDaten daten = LadeJson.LadenSpielName();
+        protected readonly string[][] _spielTitel = daten.SpielTitel!;
+        protected readonly string _subtitle = daten.SubTitle!;
 
         public void ZeigeSpielName()
         {
@@ -40,77 +19,40 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 
             Thread.Sleep(1000);
 
-            int anzahlIntroZeichen = introText.Sum(column => column[0].Length + 1) - 1;
+            int anzahlTitelZeichen = _spielTitel.Sum(column => column[0].Length + 1) - 1;
 
-            for (int i = 0; i < introText[0].Length; i++)
+            for (int i = 0; i < _spielTitel[0].Length; i += 1)
             {
+                SetzePositionSpielTitel(anzahlTitelZeichen: anzahlTitelZeichen, anzahlTitelZeilen: _spielTitel[0].Length, aktuellY: i);
 
-                SetPositionSpielName(anzahlIntroZeichen: anzahlIntroZeichen, anzahlIntroZeilen: introText[0].Length, yPosIndex: i);
-
-                for (int j = 0; j < introText.Length; j++)
+                for (int j = 0; j < _spielTitel.Length; j += 1)
                 {
                     if (j == 2) Console.ForegroundColor = ConsoleColor.Green;
 
-                    Console.Write(introText[j][i] + " ");
+                    Console.Write(_spielTitel[j][i] + " ");
+
                     Console.ForegroundColor = ConsoleColor.White;
                 }
 
                 Console.WriteLine();
 
-                Thread.Sleep(300);
+                Thread.Sleep(75);
             }
 
-            SetPositionExtraText(anzahlIntroZeichen: anzahlIntroZeichen, anzahlIntroExtraZeichen: introExtraText.Length);
+            SetzePositionSubTitle(anzahlTitelZeichen: anzahlTitelZeichen, anzahlSubTitleZeichen: _subtitle.Length);
 
-            foreach (char zeichen in introExtraText)
+            foreach (char zeichen in _subtitle)
             {
                 Console.Write(zeichen);
                 Thread.Sleep(50);
             }
 
             Thread.Sleep(1000);
+
             Console.WriteLine();
         }
 
-        protected abstract void SetPositionSpielName(int anzahlIntroZeichen, int anzahlIntroZeilen, int yPosIndex);
-        protected abstract void SetPositionExtraText(int anzahlIntroZeichen, int anzahlIntroExtraZeichen);
+        protected abstract void SetzePositionSpielTitel(int anzahlTitelZeichen, int anzahlTitelZeilen, int aktuellY);
+        protected abstract void SetzePositionSubTitle(int anzahlTitelZeichen, int anzahlSubTitleZeichen);
     }
 }
-
-
-/*
-" _   _ _       _                  _                  _____      _   _       "
-"| | | (_)     | |                | |                |  __ \    (_) (_)      "
-"| |_| |_ _ __ | |_ ___ _ __    __| | ___ _ __ ___   | |  \/_ __ _   _ _ __  "
-"|  _  | | '_ \| __/ _ \ '__|  / _` |/ _ \ '_ ` _ \  | | __| '__| | | | '_ \ "
-"| | | | | | | | ||  __/ |    | (_| |  __/ | | | | | | |_\ \ |  | |_| | | | |"
-"\_| |_/_|_| |_|\__\___|_|     \__,_|\___|_| |_| |_|  \____/_|   \__,_|_| |_|"
-
-
-"hinter"
-
-" _   _ _       _            "
-"| | | (_)     | |           "
-"| |_| |_ _ __ | |_ ___ _ __ "
-"|  _  | | '_ \| __/ _ \ '__|"
-"| | | | | | | | ||  __/ |   "
-"\_| |_/_|_| |_|\__\___|_|   "
-
-"dem"
-
-"     _                "
-"    | |               "
-"  __| | ___ _ __ ___  "
-" / _` |/ _ \ '_ ` _ \ "
-"| (_| |  __/ | | | | |"
-" \__,_|\___|_| |_| |_|"
-
-"Grün"
-
-" _____      _   _       "
-"|  __ \    (_) (_)      "
-"| |  \/_ __ _   _ _ __  "
-"| | __| '__| | | | '_ \ "
-"| |_\ \ |  | |_| | | | |"
-" \____/_|   \__,_|_| |_|"
-*/
