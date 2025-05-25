@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Spiel_Hinter_Dem_Gruen.UI
 {
-    class Startbildschirm : SpielNameBasis
+    class Startbildschirm : SpielTitelBasis
     {
-        protected override void SetPositionSpielName(int anzahlIntroZeichen, int anzahlIntroZeilen, int yPosIndex)
+        protected override void SetzePositionSpielTitel(int anzahlTitelZeichen, int anzahlTitelZeilen, int aktuellY)
         {
-            int xPos = (Console.WindowWidth - anzahlIntroZeichen) / 2;
-            int yPos = Console.WindowHeight / 2 - anzahlIntroZeilen / 2 + yPosIndex;
+            int xPos = (Console.WindowWidth - anzahlTitelZeichen) / 2;
+            int yPos = Console.WindowHeight / 2 - anzahlTitelZeichen / 2 + aktuellY;
 
             Console.SetCursorPosition(xPos, yPos);
         }
 
-        protected override void SetPositionExtraText(int anzahlIntroZeichen, int anzahlIntroExtraZeichen)
+        protected override void SetzePositionSubTitle(int anzahlTitelZeichen, int anzahlSubTitleZeichen)
         {
-            int xPos = (Console.WindowWidth - anzahlIntroZeichen) / 2 + (anzahlIntroZeichen - anzahlIntroExtraZeichen);
+            int xPos = (Console.WindowWidth - anzahlTitelZeichen) / 2 + (anzahlTitelZeichen - anzahlSubTitleZeichen);
             int yPos = Console.GetCursorPosition().Top + 2;
 
             Console.SetCursorPosition(xPos, yPos);
