@@ -8,30 +8,24 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 {
     class KonsolenTrenner
     {
-        private static int fensterBreite;
-        private static int fensterHoehe;
-
-        private static int trennlinieX;
-        private static int trennlinieY;
-
-        public static void ZeichneTrenner()
+        public static void ZeichneTrennlinien()
         {
             Console.Clear();
 
-            fensterBreite = Console.WindowWidth;
-            fensterHoehe = Console.WindowHeight;
+            int fensterBreite = Console.WindowWidth;
+            int  fensterHoehe = Console.WindowHeight;
 
-            trennlinieX = fensterBreite / 3 * 2;
-            trennlinieY = fensterHoehe / 2;
+            int trennLinieX = fensterBreite / 3 * 2;
+            int trennLinieY = fensterHoehe / 2;
 
             for (int i = 0; i < fensterHoehe; i++)
             {
-                Console.SetCursorPosition(trennlinieX, i);
+                Console.SetCursorPosition(trennLinieX, i);
                 Console.Write("|");
             }
-            for (int i = 0; i < trennlinieX; i++)
+            for (int i = 0; i < trennLinieX; i++)
             {
-                Console.SetCursorPosition(i, trennlinieY);
+                Console.SetCursorPosition(i, trennLinieY);
                 Console.Write("=");
             }
         }
