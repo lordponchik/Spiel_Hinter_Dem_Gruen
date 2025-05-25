@@ -10,10 +10,10 @@ namespace Spiel_Hinter_Dem_Gruen.UI
     {
         
 
-        private string[] _punkteMenue = { "Neues Spiel", "Ausgang" };
+        private string[] _menuePunkte = { "Neues Spiel", "Ausgang" };
         private ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
 
-        public string[] PunkteMenue { get { return _punkteMenue; } }
+        public string[] PunkteMenue { get { return _menuePunkte; } }
 
         protected override void SetzePositionSpielTitel(int anzahlTitelZeichen, int anzahlTitelZeilen, int aktuellY)
         {
@@ -38,9 +38,9 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 
         public int Auswahl()
         {
-            InteraktivesMenue menue = new(_punkteMenue, _zentrierterBereich.EinstellenInteraktivesMenue);
+            InteraktivesMenue menue = new(_menuePunkte, _zentrierterBereich.EinstellenInteraktivesMenue);
 
-            return menue.ZeigeUndWähle(istZentriert: true);
+            return menue.AnzeigenUndAuswaehlen(istZentriert: true);
         }
     }
 }
