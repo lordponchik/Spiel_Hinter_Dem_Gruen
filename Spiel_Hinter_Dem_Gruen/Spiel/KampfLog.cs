@@ -9,9 +9,11 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class KampfLog
     {
+        private static Seitenbereich _seitenbereich = new Seitenbereich();
+
         public static Dictionary<string, List<string>> ErstelleLog(Kaempfer spieler, Kaempfer gegner)
         {
-            Seitenbereich.Reset();
+            _seitenbereich.Reset();
 
             string spielerWaffe = "";
             string gegnerWaffe = "";

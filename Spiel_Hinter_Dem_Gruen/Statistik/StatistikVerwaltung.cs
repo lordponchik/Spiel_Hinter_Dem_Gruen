@@ -10,6 +10,8 @@ namespace Spiel_Hinter_Dem_Gruen.Statistik
 {
    public static class StatistikVerwaltung
     {
+
+        private static ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
         public static void SpeicherStatistic() {
 
             string json = JsonSerializer.Serialize(new
@@ -38,7 +40,7 @@ namespace Spiel_Hinter_Dem_Gruen.Statistik
 
                     List<string> statistics = new List<string> { "----- Letzte Statistic -----\n","\n", $"Siege: {siege}\n", $"Verwendete Heilmittel: {heilmittel}\n", "Die Vergangenheit spricht – doch die Zukunft gehört dir...\n" };
 
-                    ZentrierterBereich.EinstellenAusgabeInformation(statistics);
+                    _zentrierterBereich.EinstellenAusgabeInformation(statistics);
                 
             }
         }

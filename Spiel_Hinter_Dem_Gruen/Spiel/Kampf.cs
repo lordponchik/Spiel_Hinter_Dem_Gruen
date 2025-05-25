@@ -12,6 +12,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Kampf
     {
+        private static Seitenbereich _seitenbereich = new Seitenbereich();
+        private static ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
 
         private static Dictionary<string, List<string>> _kampfLog = new Dictionary<string, List<string>>();
 
@@ -23,7 +25,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             while (!spieler.IstBesiegt() && !gegner.IstBesiegt())
             {
 
-                Seitenbereich.Reset();
+                _seitenbereich.Reset();
 
                 AktualisiereKampfLog();
 
@@ -36,7 +38,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 BerechnungSchaden(spieler, gegner, _kampfLog);
                 BerechnungSchaden(gegner, spieler, _kampfLog);
 
-                Seitenbereich.Reset();
+                _seitenbereich.Reset();
 
                 AktualisiereKampfLog();
 
@@ -67,15 +69,15 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                         }
                         else
                         {
-                            Seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 2]);
-                            Seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 1]);
+                          //  _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 2]);
+                        //    _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 1]);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < eintrag.Value.Count; i += 1)
                         {
-                            Seitenbereich.EinstellenAusgabeInformation(eintrag.Value[i]);
+                           // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[i]);
                         }
                     }
                 }
@@ -118,7 +120,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             anweisungen.Add("\n");
             anweisungen.Add("Hau auf <Enter>, sonst hau ich dich!");
 
-            ZentrierterBereich.EinstellenAusgabeInformation(anweisungen);
+            _zentrierterBereich.EinstellenAusgabeInformation(anweisungen, true);
 
             ConsoleKey key;
 

@@ -12,6 +12,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Weltkarte
     {
+        private static ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
 
         public readonly string[] _ortListe = ["ork_1", "ork_2", "ork_3"];
 
@@ -35,9 +36,9 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 "Knusper, knabber... chrum-chrum.\n"},
                     gebietBeschreibungen = new List<string>[]
                     {
-                       new List<string> {"Die Pilzschlucht\n", "\n","Ein feuchter, modriger Pfad, der von riesigen leuchtenden Pilzen gesäumt ist.\n",
-                            "Der Gestank von Schimmel liegt in der Luft.\n",
-                            "Ein Ork steht mitten auf dem Pfad, seine Keule dampft von frischem Blut.\n" },
+                       new List<string> {"Die Pilzschlucht", "\n","Ein feuchter, modriger Pfad, der von riesigen leuchtenden Pilzen gesäumt ist.",
+                            "Der Gestank von Schimmel liegt in der Luft.",
+                            "Ein Ork steht mitten auf dem Pfad, seine Keule dampft von frischem Blut." },
                         new List<string> {"Der Knochenplatz\n", "\n","Knochen türmen sich zu kleinen Haufen, als hättest du ein Schlachtfeld längst vergangener Kämpfe betreten.\n",
                              "Ein breitschultriger Ork thront auf einem umgestürzten Thron aus Rippen.\n" },
                         new List<string> {"Die Feuerspalte\n","\n","Ein schmaler Gang führt an einer glühenden Felsspalte vorbei, aus der Hitze und Asche aufsteigen.\n",
@@ -265,7 +266,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             gesamtText.Add("\n");
             gesamtText.Add("Hau auf <Enter>, sonst hau ich dich!");
 
-            ZentrierterBereich.EinstellenAusgabeInformation(gesamtText);
+            _zentrierterBereich.EinstellenAusgabeInformation(gesamtText, true);
 
             ConsoleKey key;
 

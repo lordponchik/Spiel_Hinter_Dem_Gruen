@@ -10,6 +10,10 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Spiel
     {
+        private static ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
+        private static Seitenbereich _seitenbereich = new Seitenbereich();
+        private static Kopfbereich _kopfbereich = new Kopfbereich();
+        private static Fussbereich _fussbereich = new Fussbereich();
 
         public static bool IstSpielVorbei = false;
 
@@ -17,49 +21,47 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         {
             IstSpielVorbei = false;
 
-                switch (AuswahlPunkteMenue())
-                {
-                    case 0:
-                        NeuesSpiel();
-                        break;
-                    case 1:
-                        Console.Clear();
-                        ZentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Für Schwache ist hier kein Platz – verschwinde!" });
-                        Console.WriteLine();
-                        return;
-                }
+            switch (AuswahlPunkteMenue())
+            {
+                case 0:
+                    NeuesSpiel();
+                    break;
+                case 1:
+                    Console.Clear();
+                    _zentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Für Schwache ist hier kein Platz – verschwinde!" }, istZentriert: true);
+                    Console.WriteLine();
+                    return;
+            }
 
-
+            
         }
+
+
         private static int AuswahlPunkteMenue()
         {
-            Ladebildschirm.ZeigeLadebildschirm();
+            // Ladebildschirm.ZeigeLadebildschirm();
 
-            Startbildschirm startbildschirm = new Startbildschirm();
+            //Startbildschirm startbildschirm = new Startbildschirm();
 
-            startbildschirm.ZeigeSpielName();
+            //startbildschirm.ZeigeSpielName();
 
-            Ladebildschirm.ZeigeLadebildschirm();
-            StatistikVerwaltung.LadeStatistic();
-              Thread.Sleep(4000);
+            //Ladebildschirm.ZeigeLadebildschirm();
+            //StatistikVerwaltung.LadeStatistic();
+            // Thread.Sleep(4000);
 
-            Hauptmenue hauptmenue = new(new string[] { "Neues Spiel", "Ausgang" });
+            Hauptmenue hauptmenue = new Hauptmenue();
 
-            hauptmenue.ZeigeSpielName();
-           
-            InteraktivesMenue menue = new(hauptmenue.PunkteMenue, ZentrierterBereich.EinstellenInteraktivesMenue);
-
-            return menue.ZeigeUndWähle();
+            return hauptmenue.Auswahl();
         }
 
         private static void NeuesSpiel()
         {
 
-           
-           Ladebildschirm.ZeigeLadebildschirm();
-            Seitenbereich.Reset();
 
-           Spieler spieler =  new Spieler(ZentrierterBereich.EinstellenAusgabeInformation, istErsterSpiel: true, leben: 30);
+            Ladebildschirm.ZeigeLadebildschirm();
+            _seitenbereich.Reset();
+
+            Spieler spieler = new Spieler(_zentrierterBereich.EinstellenAusgabeInformation, istErsterSpiel: true, leben: 30);
 
             Reise(spieler);
 
@@ -86,10 +88,10 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             foreach (string szene in weltkarte._ortListe)
             {
 
-                Ladebildschirm.ZeigeLadebildschirm();
-                weltkarte.ZeigeKapitel(szene);
+                //Ladebildschirm.ZeigeLadebildschirm();
+                // weltkarte.ZeigeKapitel(szene);
 
-                if (spieler.IstErsterSpiel)
+                if (false) //spieler.IstErsterSpiel
                 {
                     ErsterKampf(spieler);
                     if (IstSpielVorbei)
@@ -101,6 +103,11 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                     spieler.IstErsterSpiel = false;
 
                 }
+
+                _fussbereich.Reset();
+
+                _kopfbereich.Reset();
+                _seitenbereich.Reset();
 
                 KonsolenTrenner.ZeichneTrenner();
 
@@ -115,36 +122,36 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
                     while (!gegnerBesiegt)
                     {
-                        Kopfbereich.EinstellenAusgabeInformation(gebiete[i]);
+                        _kopfbereich.EinstellenAusgabeInformation(gebiete[i]);
 
                         int auswahl = spieler.ZeigeMenue(gegner[i].Name);
 
                         switch (auswahl)
                         {
                             case 0:
-                                Fussbereich.Reset();
+                                _fussbereich.Reset();
                                 gegner[i].Rede();
                                 gegnerBesiegt = Kampf.Rundenkampf(spieler, gegner[i]);
-                                
+
                                 if (IstSpielVorbei)
                                 {
                                     Console.Clear();
                                     StarteSpiel();
                                     return;
                                 }
-                                
-                                Kopfbereich.Reset();
+
+                                _kopfbereich.Reset();
 
                                 break;
                             case 1:
-                                Fussbereich.Reset();
+                                _fussbereich.Reset();
                                 spieler.ZeigeInventar();
                                 break;
                             case 2:
                                 IstSpielVorbei = true;
                                 Console.Clear();
                                 StatistikVerwaltung.SpeicherStatistic();
-                                ZentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Für Schwache ist hier kein Platz – verschwinde!" });
+                                _zentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Für Schwache ist hier kein Platz – verschwinde!" });
                                 Console.WriteLine();
                                 return;
                         }
@@ -153,16 +160,17 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
 
                     }
-                    Kopfbereich.Reset();
+                    _kopfbereich.Reset();
                 }
 
             }
 
             Console.Clear();
 
-            ZentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Gewinn!"});
+            _zentrierterBereich.EinstellenAusgabeInformation(new List<string> { "Gewinn!" });
             Thread.Sleep(2000);
             StarteSpiel();
         }
+
     }
 }

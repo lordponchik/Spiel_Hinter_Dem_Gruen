@@ -6,9 +6,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
     {
         static void Main(string[] args)
         {
+          Spiel.StarteSpiel();
 
-
-            Spiel.StarteSpiel();
 
             Console.ReadKey();
         }
