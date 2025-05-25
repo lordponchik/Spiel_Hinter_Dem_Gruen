@@ -20,16 +20,41 @@ namespace Spiel_Hinter_Dem_Gruen.UI
         public int Breite { get { return EndeX - StartX; } }
         public int Hoehe { get { return EndeY - StartY; } }
 
+        public void ZeichneBereichRahmen()
+        {
+            int startX = AktuellX;
+            int startY = AktuellY;
+
+            string oben = "┌" + new string('─', Breite - 2) + "┐";
+            string unten = "└" + new string('─', Breite - 2) + "┘";
+
+            Console.SetCursorPosition(startX, startY);
+
+            Console.Write(oben);
+
+            for (int y = StartY + 1; y < EndeY; y++)
+            {
+                Console.SetCursorPosition(startX, y);
+                Console.Write("│");
+                Console.SetCursorPosition(startX + Breite - 1, y);
+                Console.Write("│");
+            }
+
+            Console.SetCursorPosition(startX, EndeY - 1);
+
+            Console.Write(unten);
+
+        }
 
         public void Reset()
         {
-            AktuellX = StartX;
-            AktuellY = StartY;
+            AktuellX = StartX + 1;
+            AktuellY = StartY + 1;
 
-            for (; AktuellY < EndeY; AktuellY += 1)
+            for (; AktuellY < EndeY - 1; AktuellY += 1)
             {
-                Console.SetCursorPosition(StartX, AktuellY);
-                Console.Write(new string(' ', Breite));
+                Console.SetCursorPosition(AktuellX, AktuellY);
+                Console.Write(new string(' ', Breite - 2));
             }
 
             AktuellX = StartX;
@@ -38,8 +63,8 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 
         public void EinstellenInteraktivesMenue(string[] menuePunkte, int auswahl, string titel = "", bool istZentriert = false)
         {
-            AktuellX = StartX;
-            AktuellY = StartY;
+            AktuellX = StartX + 2;
+            AktuellY = StartY + 2;
 
             if (istZentriert) AktuellY = (EndeY - menuePunkte.Length) / 2;
 
@@ -50,7 +75,7 @@ namespace Spiel_Hinter_Dem_Gruen.UI
                 AktuellY += 1;
             }
 
-            AktuellX = StartX;
+            AktuellX = StartX + 2;
 
             for (int i = 0; i < menuePunkte.Length; i += 1)
             {
@@ -72,8 +97,8 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 
         public void EinstellenAusgabeInformation(List<string> textZeilen, bool istZentriert = false)
         {
-            AktuellX = StartX;
-            AktuellY = StartY;
+            AktuellX = StartX + 2;
+            AktuellY = StartY + 2;
 
             if (istZentriert) AktuellY = (EndeY - textZeilen.Count) / 2;
 
@@ -81,7 +106,7 @@ namespace Spiel_Hinter_Dem_Gruen.UI
             {
                 if (istZentriert) AktuellX = (EndeX - textZeilen[i].Length) / 2;
 
-                Console.SetCursorPosition(AktuellX, AktuellY+i);
+                Console.SetCursorPosition(AktuellX, AktuellY + i);
 
                 Console.Write(textZeilen[i]);
             }

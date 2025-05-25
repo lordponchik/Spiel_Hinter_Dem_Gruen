@@ -14,7 +14,7 @@ namespace Spiel_Hinter_Dem_Gruen.UI
         public override int StartY { get { return 0; } }
 
         public override int EndeX { get { return Console.WindowWidth / 3 * 2 - 1; } }
-        public override int EndeY { get { return Console.WindowHeight / 2 -1; } }
+        public override int EndeY { get { return Console.WindowHeight / 2; } }
 
         public override int AktuellX { get { return _aktuellX; } set { _aktuellX = value; } }
 

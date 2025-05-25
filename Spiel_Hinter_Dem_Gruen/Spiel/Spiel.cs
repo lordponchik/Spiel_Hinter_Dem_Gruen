@@ -33,7 +33,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                     return;
             }
 
-            
+ 
         }
 
 
@@ -71,25 +71,29 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         {
             Kampf.Kampfanweisung();
 
-            Tier gegner = new Tier("Ratte", 10, 5);
+            Console.Clear();
 
-            KonsolenTrenner.ZeichneTrenner();
+            _kopfbereich.ZeichneBereichRahmen();
+            _fussbereich.ZeichneBereichRahmen();
+            _seitenbereich.ZeichneBereichRahmen();
+
+            Tier gegner = new Tier("Ratte", 10, 5);
 
             Kampf.Rundenkampf(spieler, gegner);
             if (IstSpielVorbei) return;
-            KonsolenTrenner.ZeichneTrenner();
+          
         }
 
         private static void Reise(Spieler spieler)
         {
-
+            
             Weltkarte weltkarte = new Weltkarte();
 
             foreach (string szene in weltkarte._ortListe)
             {
 
-                //Ladebildschirm.ZeigeLadebildschirm();
-                // weltkarte.ZeigeKapitel(szene);
+                Ladebildschirm.ZeigeLadebildschirm();
+                weltkarte.ZeigeKapitel(szene);
 
                 if (false) //spieler.IstErsterSpiel
                 {
@@ -104,12 +108,11 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
                 }
 
-                _fussbereich.Reset();
+                Console.Clear();
 
-                _kopfbereich.Reset();
-                _seitenbereich.Reset();
-
-                KonsolenTrenner.ZeichneTrenner();
+                _kopfbereich.ZeichneBereichRahmen();
+                _fussbereich.ZeichneBereichRahmen();
+                _seitenbereich.ZeichneBereichRahmen();
 
                 List<string>[] gebiete = weltkarte.ZeigeGebietBeschreibung(szene);
 
