@@ -32,7 +32,7 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 
             Console.Write(oben);
 
-            for (int y = StartY + 1; y < EndeY; y++)
+            for (int y = startY + 1; y < EndeY; y++)
             {
                 Console.SetCursorPosition(startX, y);
                 Console.Write("│");

@@ -14,6 +14,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         private static Seitenbereich _seitenbereich = new Seitenbereich();
         private static Kopfbereich _kopfbereich = new Kopfbereich();
         private static Fussbereich _fussbereich = new Fussbereich();
+        private static Mittelbereich _mittelbereich = new Mittelbereich();
 
         public static bool IstSpielVorbei = false;
 
@@ -32,8 +33,6 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                     Console.WriteLine();
                     return;
             }
-
- 
         }
 
 
@@ -74,6 +73,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             Console.Clear();
 
             _kopfbereich.ZeichneBereichRahmen();
+            _mittelbereich.ZeichneBereichRahmen();
             _fussbereich.ZeichneBereichRahmen();
             _seitenbereich.ZeichneBereichRahmen();
 
@@ -95,7 +95,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 Ladebildschirm.ZeigeLadebildschirm();
                 weltkarte.ZeigeKapitel(szene);
 
-                if (false) //spieler.IstErsterSpiel
+                if (spieler.IstErsterSpiel) //spieler.IstErsterSpiel
                 {
                     ErsterKampf(spieler);
                     if (IstSpielVorbei)
@@ -111,6 +111,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 Console.Clear();
 
                 _kopfbereich.ZeichneBereichRahmen();
+                _mittelbereich.ZeichneBereichRahmen();
                 _fussbereich.ZeichneBereichRahmen();
                 _seitenbereich.ZeichneBereichRahmen();
 
@@ -125,7 +126,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
                     while (!gegnerBesiegt)
                     {
-                        _kopfbereich.EinstellenAusgabeInformation(gebiete[i]);
+                        _mittelbereich.EinstellenAusgabeInformation(gebiete[i]);
 
                         int auswahl = spieler.ZeigeMenue(gegner[i].Name);
 

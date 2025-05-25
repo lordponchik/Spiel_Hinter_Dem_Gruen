@@ -13,6 +13,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
     class Kampf
     {
         private static Seitenbereich _seitenbereich = new Seitenbereich();
+        private static Kopfbereich _kopfbereich = new Kopfbereich();
         private static ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
 
         private static Dictionary<string, List<string>> _kampfLog = new Dictionary<string, List<string>>();
@@ -69,16 +70,15 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                         }
                         else
                         {
-                          //  _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 2]);
-                        //    _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 1]);
+                           // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 2]);
+                            //_seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 1]);
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < eintrag.Value.Count; i += 1)
-                        {
-                           // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[i]);
-                        }
+
+                            _seitenbereich.EinstellenAusgabeInformation(eintrag.Value);
+                          // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[i]);
                     }
                 }
             }

@@ -12,7 +12,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Gegner : Kaempfer
     {
-        private static Kopfbereich _kopfbereich = new Kopfbereich();
+        private static Mittelbereich _mittelbereich = new Mittelbereich();
 
         private static readonly string[] Koerperteile = { "Kopf", "Rumpf", "Beine" };
         private static Random _zufall = new Random();
@@ -51,8 +51,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
         public override void Rede()
         {
-            _kopfbereich.Reset();
-            _kopfbereich.EinstellenAusgabeInformation(Sprechzeilen);
+            _mittelbereich.Reset();
+            _mittelbereich.EinstellenAusgabeInformation(Sprechzeilen);
         }
 
 

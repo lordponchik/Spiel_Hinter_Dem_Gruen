@@ -14,6 +14,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Spieler : Kaempfer
     {
+        private static Mittelbereich _mittelbereich = new Mittelbereich();
         private static Fussbereich _fussbereich = new Fussbereich();
         private static Seitenbereich _seitenbereich = new Seitenbereich();
         private static Kopfbereich _kopfbereich = new Kopfbereich();
@@ -131,9 +132,9 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             string gewinnSatz = _gewinnsaetze[_zufall.Next(0, _gewinnsaetze.Length)];
 
             _fussbereich.Reset();
-            _kopfbereich.Reset();
+            _mittelbereich.Reset();
 
-            _kopfbereich.EinstellenAusgabeInformation(new List<string>
+            _mittelbereich.EinstellenAusgabeInformation(new List<string>
             {
                 "Sieg!\n",
                 "\n",
