@@ -9,9 +9,9 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 {
     abstract class SpielTitelBasis
     {
-        private static SpielNameDaten daten = LadeJson.LadenSpielName();
-        protected readonly string[][] _spielTitel = daten.SpielTitel!;
-        protected readonly string _subtitle = daten.SubTitle!;
+        private static SpielNameDaten _daten = LadeJson.LadenSpielName();
+        protected readonly string[][] _spielTitel = _daten.SpielTitel!;
+        protected readonly string _subtitle = _daten.SubTitle!;
 
         public void ZeigeSpielName()
         {
