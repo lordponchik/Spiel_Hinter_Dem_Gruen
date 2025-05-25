@@ -8,43 +8,40 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 {
     class InteraktivesMenue
     {
-        private string[] _punkte;
-        private int _auswahl = 0;
-        private Action<string[], int, string> _rendering;
+        private string[] _menuePunkte;
+        private int _aktuellerIndex = 0;
+        private Action<string[], int, string, bool> _renderAction;
 
-
-        public InteraktivesMenue(string[] punkte, Action<string[], int, string> rendering)
+        public InteraktivesMenue(string[] menuePunkte, Action<string[], int, string, bool> renderAction)
         {
-            _punkte = punkte;
-            _rendering = rendering;
+            _menuePunkte = menuePunkte;
+            _renderAction = renderAction;
         }
 
-        public int ZeigeUndWähle(string text = "")
+        public int AnzeigenUndAuswaehlen(string titel = "", bool istZentriert = false)
         {
             ConsoleKey eingabe;
 
             do
             {
-                _rendering(_punkte, _auswahl, text);
+                _renderAction(_menuePunkte, _aktuellerIndex, titel, istZentriert);
 
                 eingabe = Console.ReadKey(true).Key;
 
                 switch (eingabe)
                 {
                     case ConsoleKey.DownArrow:
-                        _auswahl = _auswahl == _punkte.Length - 1 ? 0 : _auswahl + 1;
+                        _aktuellerIndex = _aktuellerIndex == _menuePunkte.Length - 1 ? 0 : _aktuellerIndex + 1;
                         break;
                     case ConsoleKey.UpArrow:
-                        _auswahl = _auswahl == 0 ? _punkte.Length - 1 : _auswahl - 1;
+                        _aktuellerIndex = _aktuellerIndex == 0 ? _menuePunkte.Length - 1 : _aktuellerIndex - 1;
                         break;
                 }
 
             } while (eingabe != ConsoleKey.Enter);
 
-            return _auswahl;
+            return _aktuellerIndex;
         }
-
     }
-
 }
 
