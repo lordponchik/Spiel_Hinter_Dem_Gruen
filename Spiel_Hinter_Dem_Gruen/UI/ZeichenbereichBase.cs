@@ -29,19 +29,19 @@ namespace Spiel_Hinter_Dem_Gruen.UI
             for (; AktuellY < EndeY; AktuellY += 1)
             {
                 Console.SetCursorPosition(StartX, AktuellY);
-                Console.Write("".PadRight(Breite));
+                Console.Write(new string(' ', Breite));
             }
 
             AktuellX = StartX;
             AktuellY = StartY;
         }
 
-        public void EinstellenInteraktivesMenue(string[] punkte, int auswahl, string titel = "", bool istZentriert = false)
+        public void EinstellenInteraktivesMenue(string[] menuePunkte, int auswahl, string titel = "", bool istZentriert = false)
         {
             AktuellX = StartX;
             AktuellY = StartY;
 
-            if (istZentriert) AktuellY = (EndeY - punkte.Length) / 2;
+            if (istZentriert) AktuellY = (EndeY - menuePunkte.Length) / 2;
 
             if (titel.Length != 0)
             {
@@ -52,15 +52,15 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 
             AktuellX = StartX;
 
-            for (int i = 0; i < punkte.Length; i += 1)
+            for (int i = 0; i < menuePunkte.Length; i += 1)
             {
-                if (istZentriert) AktuellX = (EndeX - punkte[i].Length) / 2;
+                if (istZentriert) AktuellX = (EndeX - menuePunkte[i].Length) / 2;
 
                 Console.SetCursorPosition(AktuellX, AktuellY + i);
 
                 if (i == auswahl) Console.ForegroundColor = ConsoleColor.Green;
 
-                Console.Write(punkte[i]);
+                Console.Write(menuePunkte[i]);
 
                 Console.ForegroundColor = ConsoleColor.White;
             }
@@ -70,20 +70,20 @@ namespace Spiel_Hinter_Dem_Gruen.UI
 
         }
 
-        public void EinstellenAusgabeInformation(List<string> texte, bool istZentriert = false)
+        public void EinstellenAusgabeInformation(List<string> textZeilen, bool istZentriert = false)
         {
             AktuellX = StartX;
             AktuellY = StartY;
 
-            if (istZentriert) AktuellY = (EndeY - texte.Count) / 2;
+            if (istZentriert) AktuellY = (EndeY - textZeilen.Count) / 2;
 
-            for (int i = 0; i < texte.Count; i += 1)
+            for (int i = 0; i < textZeilen.Count; i += 1)
             {
-                if (istZentriert) AktuellX = (EndeX - texte[i].Length) / 2;
+                if (istZentriert) AktuellX = (EndeX - textZeilen[i].Length) / 2;
 
                 Console.SetCursorPosition(AktuellX, AktuellY+i);
 
-                Console.Write(texte[i]);
+                Console.Write(textZeilen[i]);
             }
 
             AktuellX = StartX;
