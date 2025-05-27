@@ -49,7 +49,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
             int extraSchaden = 0;
 
-            if (AktiveWaffe != null) extraSchaden += AktiveWaffe.Wert;
+            if (AktiveWaffe != null) extraSchaden += AktiveWaffe.Schadenswert;
 
 
             int geschadet = _zufall.Next(Schaden-2, Schaden + extraSchaden + 1);

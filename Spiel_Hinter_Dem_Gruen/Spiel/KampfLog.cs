@@ -18,8 +18,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             string spielerWaffe = "";
             string gegnerWaffe = "";
 
-            if (spieler.AktiveWaffe != null) spielerWaffe = $"{spieler.AktiveWaffe.Name}: +{spieler.AktiveWaffe.Wert} Max-Schaden";
-            if (gegner.AktiveWaffe != null) gegnerWaffe = $"{gegner.AktiveWaffe.Name}: +{gegner.AktiveWaffe.Wert} Max-Schaden";
+            if (spieler.AktiveWaffe != null) spielerWaffe = $"{spieler.AktiveWaffe.Name}: +{spieler.AktiveWaffe.Schadenswert} Max-Schaden";
+            if (gegner.AktiveWaffe != null) gegnerWaffe = $"{gegner.AktiveWaffe.Name}: +{gegner.AktiveWaffe.Schadenswert} Max-Schaden";
 
             Dictionary<string, List<string>> logs = new Dictionary<string, List<string>>
             {

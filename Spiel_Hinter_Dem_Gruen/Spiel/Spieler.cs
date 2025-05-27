@@ -110,7 +110,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             _seitenbereich.Reset();
 
             string waffe = "";
-            if (AktiveWaffe != null) waffe = $"{AktiveWaffe.Name} - in der Hand +{AktiveWaffe.Wert} Max-Schaden";
+            if (AktiveWaffe != null) waffe = $"{AktiveWaffe.Name} - in der Hand +{AktiveWaffe.Schadenswert} Max-Schaden";
 
             List<string> information = new List<string>
             {
@@ -158,7 +158,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 FuegeItemHinzu(item);
 
                 if (item is Heilmittel heilmittel) texte.Add($"{heilmittel.Name} - Anzahl: {heilmittel.Anzahl}");
-                if (item is Waffe waffe) texte.Add($"{waffe.Name} - +{waffe.Wert} Max-Schaden");
+                if (item is Waffe waffe) texte.Add($"{waffe.Name} - +{waffe.Schadenswert} Max-Schaden");
             }
 
             _seitenbereich.EinstellenAusgabeInformation(texte);
@@ -282,13 +282,13 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 foreach (Item item in Inventar[gewaehlteGruppe])
                 {
 
-                    if (item is Heilmittel heilmittel) namenItems[index] = $"{heilmittel.Name} heilt zwischen {heilmittel.MinHeilung} und {heilmittel.Wert} HP | (Anzahl: {heilmittel.Anzahl})";
+                    if (item is Heilmittel heilmittel) namenItems[index] = $"{heilmittel.Name} heilt zwischen {heilmittel.Heilungswert} und {heilmittel.Heilungswert} HP | (Anzahl: {heilmittel.Anzahl})";
                     if (item is Waffe waffe)
                     {
                         string ausgeruestet = "";
                         if (AktiveWaffe != null) ausgeruestet = waffe.Name == AktiveWaffe.Name ? "(Ausgerüstet)" : "";
 
-                        namenItems[index] = $"{waffe.Name} verursacht {waffe.Wert} Schaden {ausgeruestet}";
+                        namenItems[index] = $"{waffe.Name} verursacht {waffe.Schadenswert} Schaden {ausgeruestet}";
                     }
 
                     index += 1;
