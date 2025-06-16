@@ -11,15 +11,11 @@ namespace Spiel_Hinter_Dem_Gruen.Items
         public string Name { get; set; }
         public string Typ { get; set; }
         public int Anzahl { get; set; }
-        public int Verkaufspreis { get; set; }
-        public int Kaufpreis { get; set; }
 
-        public Item(string name, string typ, int verkaufspreis, int kaufpreis, int anzahl = 1)
+        public Item(string name, string typ, int anzahl = 1)
         {
             Name = name;
             Typ = typ;
-            Verkaufspreis = verkaufspreis;
-            Kaufpreis = kaufpreis;
             Anzahl = anzahl;
         }
 
