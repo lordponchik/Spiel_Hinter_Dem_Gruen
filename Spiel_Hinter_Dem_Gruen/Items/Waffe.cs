@@ -9,13 +9,13 @@ namespace Spiel_Hinter_Dem_Gruen.Items
     class Waffe : Item
     {
         public int Schadenswert { get; set; }
-        public Waffe(string name, int verkaufspreis, int kaufpreis, int schadenswert) : base(name, "Waffe", verkaufspreis, kaufpreis)
+        public Waffe(string name, int schadenswert) : base(name, "Waffe")
         {
             Schadenswert = schadenswert;
         }
         public override Item Klonen()
         {
-            return new Waffe(Name,Verkaufspreis, Kaufpreis, Schadenswert);
+            return new Waffe(Name, Schadenswert);
         }
     }
 }

@@ -282,7 +282,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 foreach (Item item in Inventar[gewaehlteGruppe])
                 {
 
-                    if (item is Heilmittel heilmittel) namenItems[index] = $"{heilmittel.Name} heilt zwischen {heilmittel.Heilungswert} und {heilmittel.Heilungswert} HP | (Anzahl: {heilmittel.Anzahl})";
+                    if (item is Heilmittel heilmittel) namenItems[index] = $"{heilmittel.Name} heilt zwischen {heilmittel.Heilungswert} und {heilmittel.Heilungswert
+                        } HP | (Anzahl: {heilmittel.Anzahl})";
                     if (item is Waffe waffe)
                     {
                         string ausgeruestet = "";

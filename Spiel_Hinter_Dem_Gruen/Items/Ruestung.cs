@@ -10,14 +10,14 @@ namespace Spiel_Hinter_Dem_Gruen.Items
     {
         public int Verteidigungswert { get; set; }
 
-        public Ruestung(string name, int verkaufspreis, int kaufpreis, int verteidigungswert) : base(name, "Ruestung", verkaufspreis, kaufpreis)
+        public Ruestung(string name, int verteidigungswert) : base(name, "Ruestung")
         {
             Verteidigungswert = verteidigungswert;
         }
 
         public override Item Klonen()
         {
-            return new Ruestung(Name, Verkaufspreis, Kaufpreis, Verteidigungswert);
+            return new Ruestung(Name, Verteidigungswert);
         }
 
     }

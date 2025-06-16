@@ -11,7 +11,7 @@ namespace Spiel_Hinter_Dem_Gruen.Items
     {
         public int Heilungswert { get; set; }
 
-        public Heilmittel(string name, int verkaufspreis, int kaufpreis, int heilungswert) : base(name, "Heilmittel", verkaufspreis, kaufpreis)
+        public Heilmittel(string name, int heilungswert) : base(name, "Heilmittel")
         {
             Heilungswert = heilungswert;
         }
@@ -29,7 +29,7 @@ namespace Spiel_Hinter_Dem_Gruen.Items
 
         public override Item Klonen()
         {
-            return new Heilmittel(Name, Verkaufspreis, Kaufpreis, Heilungswert);
+            return new Heilmittel(Name, Heilungswert);
         }
     }
 }
