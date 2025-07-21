@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
 using Spiel_Hinter_Dem_Gruen.Items;
+using Spiel_Hinter_Dem_Gruen.Ressourcen;
 using Spiel_Hinter_Dem_Gruen.Statistik;
 using Spiel_Hinter_Dem_Gruen.UI;
 
@@ -17,37 +12,17 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         private static Mittelbereich _mittelbereich = new Mittelbereich();
         private static Fussbereich _fussbereich = new Fussbereich();
         private static Seitenbereich _seitenbereich = new Seitenbereich();
-        private static Kopfbereich _kopfbereich = new Kopfbereich();
         private static ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
-
+        private readonly Action<List<string>, bool> _rendering;
         private static readonly string[] _koerperteile = { "Kopf", "Rumpf", "Beine" };
-
-        private static readonly string[] _gewinnsaetze = {
-
-"Das war’s! Du hast den Kampf nicht überlebt.",
-
-"Noch ein Gegner weniger auf meinem Weg!",
-
-"Dein Ende war vorhersehbar.",
-
-"Schwach wie ein kleines Licht. Das nächste Mal besser!",
-"So besiegt man einen Gegner – sauber und schnell.",
-
-"Ich habe deine Stärke zerschlagen wie Glas.",
-
-"Dein Mut hat dich in den Abgrund geführt.",
-"Kein Platz für Verlierer hier.",
-
-"Ich habe dich besiegt, und das ist erst der Anfang.",
-
-"Du hättest besser umgedreht, bevor es zu spät war."};
-
-        private static Random _zufall = new Random();
+        private static string[] _gewinnsaetze = LadeJson.LadenDatei<GewinnSaetzeDaten>("GewinnSaetze.json").Saetze;
+        private static List<string> _benennungNachricht = LadeJson.LadenDatei<BenennungDaten>("SpielerBenennung.json").BenennungNachricht;
+        private static VerstorbenNachrichtDaten _verstorbenNachricht = LadeJson.LadenDatei<VerstorbenNachrichtDaten>("AngabenZumVerstorbenen.json");
+        private static readonly Random _zufall = new Random();
 
         public Dictionary<string, List<Item>> Inventar { get; private set; } = new Dictionary<string, List<Item>>();
         public bool IstErsterSpiel { get; set; }
 
-        private readonly Action<List<string>, bool> _rendering;
         public Spieler(Action<List<string>, bool> rendering, bool istErsterSpiel = false, string name = "", int leben = 100, int schaden = 10) : base(name, leben, schaden)
         {
             Inventar["Heilmittel"] = new List<Item>();
@@ -57,7 +32,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             IstErsterSpiel = istErsterSpiel;
         }
 
-        public string Benennung()
+        private string Benennung()
         {
             string name = "";
 
@@ -65,13 +40,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             {
                 Console.Clear();
 
-                _rendering(new List<string> { "Die anderen Orks lachen über dich – du bist der Letzte in der Rangordnung.\n",
-                    "Deine Muskeln zittern, dein Magen knurrt – du bist nicht gerade furchteinflößend.\n",
-                    "Ein Ork, ja. Aber ein besonders mickriger.\n",
-                    "",
-                    "Ein Ork hat keine Zeit für Zungenbrecher. Maximal zehn Zeichen!\n",
-                    "Sag mir, wie du heißt: ",
-                }, true);
+                _rendering(_benennungNachricht, true);
 
                 name = (Console.ReadLine() ?? "").Trim();
 
@@ -83,46 +52,41 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
             _rendering(new List<string> { $"Willkommen {name}" }, true);
 
-            Thread.Sleep(1500);
+            Thread.Sleep(1000);
 
             return name;
         }
 
+        public override void WaehleAngriff() => KoerperTeilAngriff = WaehleKoerperteil("Wohin willst du schlagen?");
 
+        public override void WaehleVerteidigung() => KoerperTeilVerteidigung = WaehleKoerperteil("Was willst du verteidigen?");
 
-
-        public override void WaehleAngriff()
+        private int WaehleKoerperteil(string frage)
         {
-            InteraktivesMenue interaktivesMenue = new InteraktivesMenue(_koerperteile, _fussbereich.EinstellenInteraktivesMenue);
+            InteraktivesMenue menue = new InteraktivesMenue(_koerperteile, _fussbereich.EinstellenInteraktivesMenue);
 
-            KoerperTeilAngriff = interaktivesMenue.AnzeigenUndAuswaehlen("Wohin willst du schlagen?");
-        }
-        public override void WaehleVerteidigung()
-        {
+            return menue.AnzeigenUndAuswaehlen(frage);
+        } 
 
-            InteraktivesMenue interaktivesMenue = new InteraktivesMenue(_koerperteile, _fussbereich.EinstellenInteraktivesMenue);
-
-            KoerperTeilVerteidigung = interaktivesMenue.AnzeigenUndAuswaehlen("Was willst du verteidigen?");
-        }
-
-        public void ZeigeInformation()
+        public void ZeigeSpielerInformation()
         {
             _seitenbereich.Reset();
 
-            string waffe = "";
-            if (AktiveWaffe != null) waffe = $"{AktiveWaffe.Name} - in der Hand +{AktiveWaffe.Schadenswert} Max-Schaden";
+            string waffeInfo = "";
+            if (AktiveWaffe != null) waffeInfo = $"{AktiveWaffe.Name} - in der Hand +{AktiveWaffe.Schadenswert} Max-Schaden";
 
-            List<string> information = new List<string>
+            List<string> spielerInfo = new List<string>
             {
                 $"Name: {Name}",
                 "-------------------------",
-                $"HP: {Leben} | Max HP: 100",
+                $"HP: #################### {Leben}/100",
                 "-------------------------",
-                $"Max-Schaden: {Schaden}",
-               $"{waffe}",
+                $"Schaden: {Schaden}",
+                $"{waffeInfo}",
+                // Lvl
             };
 
-            _seitenbereich.EinstellenAusgabeInformation(information);
+            _seitenbereich.EinstellenAusgabeInformation(spielerInfo);
         }
 
 
@@ -142,45 +106,20 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
             });
 
-            string[] punkteMenue = new string[1] { "Zurück" };
+            InteraktivesMenue menue = new InteraktivesMenue(new string[1] { "Zurück" }, _fussbereich.EinstellenInteraktivesMenue);
 
-            InteraktivesMenue menue = new InteraktivesMenue(punkteMenue, _fussbereich.EinstellenInteraktivesMenue);
+            if (menue.AnzeigenUndAuswaehlen() == 0) return;
 
-
-            List<string> texte = new List<string>();
-
-            texte.Add("");
-            texte.Add("------ Auszeichnungen -----");
-
-            
-            foreach (Item item in auszeichnungen)
-            {
-                FuegeItemHinzu(item);
-
-                if (item is Heilmittel heilmittel) texte.Add($"{heilmittel.Name} - Anzahl: {heilmittel.Anzahl}");
-                if (item is Waffe waffe) texte.Add($"{waffe.Name} - +{waffe.Schadenswert} Max-Schaden");
-            }
-
-            _seitenbereich.EinstellenAusgabeInformation(texte);
-
-            int auswahl = menue.AnzeigenUndAuswaehlen();
-
-
-            
-            if (auswahl == 0) return;
-        
-            }
+        }
 
         public int ZeigeMenue(string name)
         {
-            ZeigeInformation();
+            ZeigeSpielerInformation();
             _fussbereich.Reset();
 
             string[] menue = { $"Gegner: {name} herausfordern", "Inventar öffnen", "Spiel beenden" };
 
-
-            InteraktivesMenue menue1 = new(menue, _fussbereich.EinstellenInteraktivesMenue);
-            return menue1.AnzeigenUndAuswaehlen();
+            return new InteraktivesMenue(menue, _fussbereich.EinstellenInteraktivesMenue).AnzeigenUndAuswaehlen();
         }
 
         public override void ErhalteSchaden(int schaden)
@@ -188,82 +127,49 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             base.ErhalteSchaden(schaden);
 
 
-
             if (Leben == 0)
             {
                 Console.Clear();
                 StatistikVerwaltung.SpeicherStatistic();
 
-                List<string> skelett = new List<string>{
-
-                    "    .-.    ",
-                    "   (o.o)   ",
-                    "    |=|    ",
-                    "   __|__   ",
-                    " //.=|=.\\ ",
-                    "// .=|=. \\",
-                    "\\ .=|=. //",
-                    " \\(_=_)// ",
-                    "  (:| |:)  ",
-                    "   || ||   ",
-                    "   () ()   ",
-                    "   || ||   ",
-                    "   || ||   ",
-                    "  ==' '==  ",
-            };
-
-                List<string> text = new List<string> {
-                    "\n",
-                   "Hah! Deine Knochen sind weich wie Elfensuppe. Komm wieder, wenn du gelernt hast zu sterben!",
-                    "\n",
-                    "Du bist gestorben..."
-                };
-
                 List<string> gesamtBlock = new List<string>();
 
-                gesamtBlock.AddRange(skelett);
-                gesamtBlock.AddRange(text);
+                gesamtBlock.AddRange(_verstorbenNachricht.bild);
+                gesamtBlock.AddRange(_verstorbenNachricht.nachricht);
 
-                _zentrierterBereich.EinstellenAusgabeInformation(gesamtBlock);
+                _zentrierterBereich.EinstellenAusgabeInformation(gesamtBlock, true);
 
                 Thread.Sleep(4000);
 
                 Spiel.IstSpielVorbei = true;
-
-
             }
         }
-
-
         public void ZeigeInventar()
         {
-
-
             while (true)
             {
-
                 _fussbereich.Reset();
 
-                string[] menue = new string[Inventar.Count + 1];
+                string[] menueGruppen = new string[Inventar.Count + 1];
 
                 int index = 0;
 
                 foreach (KeyValuePair<string, List<Item>> eintrag in Inventar)
                 {
-                    menue[index] = eintrag.Key;
+                    menueGruppen[index] = eintrag.Key;
                     index += 1;
                 }
 
-                menue[menue.Length - 1] = "Zurück";
+                menueGruppen[menueGruppen.Length - 1] = "Zurück";
 
-                InteraktivesMenue menue1 = new(menue, _fussbereich.EinstellenInteraktivesMenue);
+                InteraktivesMenue menueGegenstaende = new(menueGruppen, _fussbereich.EinstellenInteraktivesMenue);
 
-                int gewaehlteGruppe = menue1.AnzeigenUndAuswaehlen();
+                int gewaehlteGruppe = menueGegenstaende.AnzeigenUndAuswaehlen();
 
 
 
-                if (gewaehlteGruppe == menue.Length - 1) return;
-                ZeigeGegenstaendeGruppe(menue[gewaehlteGruppe]);
+                if (gewaehlteGruppe == menueGruppen.Length - 1) return;
+                ZeigeGegenstaendeGruppe(menueGruppen[gewaehlteGruppe]);
             }
         }
 
@@ -276,14 +182,12 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
                 string[] namenItems = new string[Inventar[gewaehlteGruppe].Count + 1];
 
-
                 int index = 0;
 
                 foreach (Item item in Inventar[gewaehlteGruppe])
                 {
 
-                    if (item is Heilmittel heilmittel) namenItems[index] = $"{heilmittel.Name} heilt zwischen {heilmittel.Heilungswert} und {heilmittel.Heilungswert
-                        } HP | (Anzahl: {heilmittel.Anzahl})";
+                    if (item is Heilmittel heilmittel) namenItems[index] = $"{heilmittel.Name} heilt zwischen {heilmittel.Heilungswert / 2} und {heilmittel.Heilungswert} HP | (Anzahl: {heilmittel.Anzahl})";
                     if (item is Waffe waffe)
                     {
                         string ausgeruestet = "";
@@ -296,11 +200,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 }
                 namenItems[namenItems.Length - 1] = "Zurück";
 
-
-
-                InteraktivesMenue menue1 = new(namenItems, _fussbereich.EinstellenInteraktivesMenue);
-
-                int auswahl = menue1.AnzeigenUndAuswaehlen();
+                int auswahl = new InteraktivesMenue(namenItems, _fussbereich.EinstellenInteraktivesMenue).AnzeigenUndAuswaehlen();
 
                 if (auswahl == namenItems.Length - 1) return;
 
@@ -309,60 +209,40 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                     case "Heilmittel":
                         ErhalteHeilung(((Heilmittel)Inventar[gewaehlteGruppe][auswahl]).Verwenden());
                         if (Inventar[gewaehlteGruppe][auswahl] is Heilmittel heilung && heilung.Anzahl == 0) { Inventar["Heilmittel"].Remove(heilung); }
-                        ZeigeInformation();
+                        ZeigeSpielerInformation();
                         break;
                     case "Waffe":
-                        if (AktiveWaffe != null)
-                        {
-                            if (AktiveWaffe.Name == Inventar[gewaehlteGruppe][auswahl].Name)
-                            {
-                                AktiveWaffe = null;
-                                ZeigeInformation();
-                                continue;
+                        Waffe gewaehlteWaffe = (Waffe)Inventar[gewaehlteGruppe][auswahl];
 
-                            }
-                            else AktiveWaffe = (Waffe)Inventar[gewaehlteGruppe][auswahl];
-                        }
-                        else AktiveWaffe = (Waffe)Inventar[gewaehlteGruppe][auswahl];
-                        ZeigeInformation();
+                        if (AktiveWaffe != null && AktiveWaffe.Name == gewaehlteWaffe.Name) AktiveWaffe = null;
+                        else AktiveWaffe = gewaehlteWaffe;
+
+                        ZeigeSpielerInformation();
                         break;
                 }
-
-
-
             }
         }
 
         public void FuegeItemHinzu(Item item)
         {
-            Item neuesItem = item.Klonen();
-
-            if (neuesItem is Heilmittel neuesHeilmittel)
+            if (item is Heilmittel neuesHeilmittel)
             {
                 List<Item> heilmittelListe = Inventar["Heilmittel"];
 
-                bool gefunden = false;
-
-                foreach (Item element in heilmittelListe)
+                if (!heilmittelListe.Exists(el => el.Name == neuesHeilmittel.Name))
                 {
-                    if (element is Heilmittel vorhandenesHeilmittel && vorhandenesHeilmittel.Name == neuesHeilmittel.Name)
-                    {
-                        vorhandenesHeilmittel.Anzahl += neuesHeilmittel.Anzahl;
-                        gefunden = true;
-                        break;
-                    }
+                    heilmittelListe.Add(item);
                 }
-
-                if (!gefunden)
+                else
                 {
-                    heilmittelListe.Add(neuesItem);
+                    heilmittelListe.Find(el => el.Name == neuesHeilmittel.Name).Anzahl += neuesHeilmittel.Anzahl;
                 }
             }
-            if (neuesItem is Waffe neuerWaffe)
+            if (item is Waffe neuerWaffe)
             {
                 List<Item> waffenListe = Inventar["Waffe"];
 
-                waffenListe.Add(neuesItem);
+                waffenListe.Add(item);
             }
         }
 
@@ -372,7 +252,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
             if (Leben > 100) Leben = 100;
 
-            ZeigeInformation();
+            ZeigeSpielerInformation();
         }
     }
 }
