@@ -9,17 +9,13 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     abstract class Kaempfer
     {
-        public string Name { get; set; }
         private static Random _zufall = new Random();
+        public string Name { get; protected set; }
         public int Leben { get; protected set; } = 100;
-
         public Waffe? AktiveWaffe { get; protected set; }
-
         public int Schaden { get; protected set; }
-
         public int KoerperTeilAngriff { get; protected set; }
-        public int? KoerperTeilVerteidigung { get; protected set; }
-
+        public int KoerperTeilVerteidigung { get; protected set; }
         public Kaempfer(string name, int leben, int schaden, Waffe? aktiveWaffe = null)
         {
             Name = name;
@@ -29,32 +25,22 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         }
 
         public abstract void WaehleAngriff();
-        public virtual void WaehleVerteidigung()
+        public abstract void WaehleVerteidigung();
+
+        public bool IstBesiegt() => Leben <= 0;
+
+        public int VerursachterSchaden()
         {
-            KoerperTeilVerteidigung = null;
+            int extraSchaden = 0;
+
+            if (AktiveWaffe != null) extraSchaden += AktiveWaffe.Schadenswert;
+
+            return _zufall.Next(Schaden / 2, Schaden + extraSchaden + 1);
         }
         public virtual void ErhalteSchaden(int schaden)
         {
             Leben -= schaden;
             if (Leben < 0) Leben = 0;
-        }
-
-        public bool IstBesiegt()
-        {
-            return Leben <= 0;
-        }
-
-        public int VerursachterSchaden()
-        {
-
-            int extraSchaden = 0;
-
-            if (AktiveWaffe != null) extraSchaden += AktiveWaffe.Schadenswert;
-
-
-            int geschadet = _zufall.Next(Schaden-2, Schaden + extraSchaden + 1);
-
-            return geschadet;
         }
         public virtual void Rede() { }
         public virtual void NimmBelohnungAuf(string name, List<Item> belohnungen) { }
