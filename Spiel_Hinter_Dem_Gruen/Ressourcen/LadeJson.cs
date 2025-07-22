@@ -9,13 +9,14 @@ namespace Spiel_Hinter_Dem_Gruen.Ressourcen
 {
     public static class LadeJson
     {
-        public static SpielNameDaten LadenSpielName()
+        public static T LadenDatei<T>(string dateiName)
         {
-            string pfad = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TextAssets", "SpielName.json");
+            string pfad = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TextAssets", dateiName);
 
             string json = File.ReadAllText(pfad);
 
-            return JsonSerializer.Deserialize<SpielNameDaten>(json)!;
+            return JsonSerializer.Deserialize<T>(json)!;
         }
     }
 }
+
