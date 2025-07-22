@@ -10,6 +10,7 @@ namespace Spiel_Hinter_Dem_Gruen.Items
     class Heilmittel : Item
     {
         public int Heilungswert { get; set; }
+        private static readonly Random _zufall = new Random();
 
         public Heilmittel(string name, int heilungswert) : base(name, "Heilmittel")
         {
@@ -22,7 +23,9 @@ namespace Spiel_Hinter_Dem_Gruen.Items
 
             Anzahl -= 1;
 
-            int geheilt = Heilungswert;
+
+
+            int geheilt = _zufall.Next(Heilungswert / 2, Heilungswert + 1);
 
             return geheilt;
         }
