@@ -22,14 +22,15 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
         public Dictionary<string, List<Item>> Inventar { get; private set; } = new Dictionary<string, List<Item>>();
         public bool IstErsterSpiel { get; set; }
-
-        public Spieler(Action<List<string>, bool> rendering, bool istErsterSpiel = false, string name = "", int leben = 100, int schaden = 10) : base(name, leben, schaden)
+        public int WeltLevel { get; set; }
+        public Spieler(Action<List<string>, bool> rendering, bool istErsterSpiel = false, int weltlevel = 1, string name = "", int leben = 100, int schaden = 10) : base(name, leben, schaden)
         {
             Inventar["Heilmittel"] = new List<Item>();
             Inventar["Waffe"] = new List<Item>();
             _rendering = rendering;
             Name = Benennung();
             IstErsterSpiel = istErsterSpiel;
+            WeltLevel = weltlevel;
         }
 
         private string Benennung()
@@ -72,18 +73,20 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         {
             _seitenbereich.Reset();
 
-            string waffeInfo = "";
-            if (AktiveWaffe != null) waffeInfo = $"{AktiveWaffe.Name} - in der Hand +{AktiveWaffe.Schadenswert} Max-Schaden";
+            string waffeInfo = "Keine";
+            if (AktiveWaffe != null) waffeInfo = $"{AktiveWaffe.Name} +{AktiveWaffe.Schadenswert} Schaden";
 
             List<string> spielerInfo = new List<string>
             {
                 $"Name: {Name}",
-                "-------------------------",
-                $"HP: #################### {Leben}/100",
-                "-------------------------",
+                "",
+                $"Welt-Stufe: {WeltLevel}",
+                "",
+                $"Lebenspunkte: {Leben}/100",
+                "",
                 $"Schaden: {Schaden}",
-                $"{waffeInfo}",
-                // Lvl
+                "",
+                $"Waffe: {waffeInfo}",
             };
 
             _seitenbereich.EinstellenAusgabeInformation(spielerInfo);
