@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Spiel_Hinter_Dem_Gruen.Statistik
 {
-    public static class  SpielerStatistik
+    public static class SpielerStatistik
     {
-        public static int Siege { get;set; }
-        public static int VerwendeteHeilmittel
-        {
-            get;set;
-        }
+        public static int Siege { get; set; }
+        public static int VerwendeteHeilmittel { get; set; }
 
         public static void ErhoeheSiege()
         {
