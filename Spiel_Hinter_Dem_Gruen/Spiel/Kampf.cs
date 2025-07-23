@@ -15,7 +15,6 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
         public static bool Rundenkampf(Kaempfer spieler, Kaempfer gegner)
         {
-
             _kampfLog = KampfLog.ErstelleLog(spieler, gegner);
 
             while (!spieler.IstBesiegt() && !gegner.IstBesiegt())
@@ -48,12 +47,10 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
         public static void AktualisiereKampfLog(Kaempfer spieler, Kaempfer gegner)
         {
-
             _beschreibungZeilen.Clear();
 
             foreach (KeyValuePair<string, List<string>> eintrag in _kampfLog)
             {
-
                 if (eintrag.Key == "Beschreibung")
                 {
                     if (eintrag.Value.Count == 0)
@@ -82,8 +79,6 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 {
                     foreach (Item item in geg.Auszeichnung)
                     {
-
-
                         if (item is Heilmittel heilmittel)
                         {
                             texte.Add($"{heilmittel.Name} - Anzahl: {heilmittel.Anzahl}");
