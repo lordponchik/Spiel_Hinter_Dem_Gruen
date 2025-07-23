@@ -84,7 +84,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 "",
                 $"Lebenspunkte: {LebensPunkte} / {MaxLebensPunkte}",
                 "",
-                $"Schaden: {Schaden / 2} - {Schaden}",
+                $"Schaden: {Schaden / 2} bis {Schaden}",
                 "",
                 $"Waffe: {waffeInfo}",
             };
