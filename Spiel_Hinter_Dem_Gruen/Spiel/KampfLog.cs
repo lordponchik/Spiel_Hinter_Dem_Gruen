@@ -9,12 +9,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class KampfLog
     {
-        private static Seitenbereich _seitenbereich = new Seitenbereich();
-
         public static Dictionary<string, List<string>> ErstelleLog(Kaempfer spieler, Kaempfer gegner)
         {
-            _seitenbereich.Reset();
-
             string spielerWaffe = "";
             string gegnerWaffe = "";
 
@@ -24,35 +20,30 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             Dictionary<string, List<string>> logs = new Dictionary<string, List<string>>
             {
                 {
-                    "titel", new List<string>{$"Kampf gegen {gegner.Name}"}
+                    "Titel", new List<string>{$"Kampf gegen {gegner.Name}"}
                 },
                  {
-                    "trenner1", new List<string>{"---------------------------------"}
-
+                    "TrennerOben", new List<string>{"---------------------------------"}
                 },
                 {
-                    $"{spieler.Name}", new List<string>{$"Name: {spieler.Name}", $"HP: {spieler.Leben}", $"Max-Schaden: {spieler.Schaden}"}
+                    $"{spieler.Name}", new List<string>{$"Name: {spieler.Name}", $"Lebenspunkte: {spieler.LebensPunkte} / {spieler.MaxLebensPunkte}", $"Schaden: {spieler.Schaden / 2} bis {spieler.Schaden}"}
                 },
                                  {
-                    "trenner2", new List<string>{"---------------------------------"}
-
+                    "TrennerMitte", new List<string>{"---------------------------------"}
                 },
                 {
-                    $"{gegner.Name}", new List<string>{$"Name: {gegner.Name}", $"HP: {gegner.Leben}", $"Max-Schaden: {gegner.Schaden}"}
+                    $"{gegner.Name}", new List<string>{$"Name: {gegner.Name}", $"Lebenspunkte: {gegner.LebensPunkte} / {gegner.MaxLebensPunkte}", $"Schaden: {gegner.Schaden / 2} bis {gegner.Schaden}"}
                 },
                  {
-                    "trenner3", new List<string>{"---------------------------------"}
-
+                    "TrennerUnten", new List<string>{"---------------------------------"}
                 },
                 {
-                    "beschreibung", new List<string>()
+                    "Beschreibung", new List<string>()
                 },
-
-
             };
 
-            if (spielerWaffe.Length != 0) logs[spieler.Name].Add($"{spielerWaffe}");
-            if (gegnerWaffe.Length != 0) logs[gegner.Name].Add($"{gegnerWaffe}");
+            if (!string.IsNullOrEmpty(spielerWaffe)) logs["Spieler"].Add($"{spielerWaffe}");
+            if (!string.IsNullOrEmpty(gegnerWaffe)) logs["Gegner"].Add($"{gegnerWaffe}");
 
             return logs;
         }
