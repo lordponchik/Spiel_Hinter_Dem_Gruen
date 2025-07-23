@@ -11,15 +11,17 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
     {
         private static Random _zufall = new Random();
         public string Name { get; protected set; }
-        public int Leben { get; protected set; } = 100;
+        public int LebensPunkte { get; protected set; }
+        public int MaxLebensPunkte { get; protected set; }
         public Waffe? AktiveWaffe { get; protected set; }
         public int Schaden { get; protected set; }
         public int KoerperTeilAngriff { get; protected set; }
         public int KoerperTeilVerteidigung { get; protected set; }
-        public Kaempfer(string name, int leben, int schaden, Waffe? aktiveWaffe = null)
+        public Kaempfer(string name, int lebensPunkte, int maxLebensPunkte, int schaden, Waffe? aktiveWaffe = null)
         {
             Name = name;
-            Leben = leben;
+            LebensPunkte = lebensPunkte;
+            MaxLebensPunkte = maxLebensPunkte;
             Schaden = schaden;
             AktiveWaffe = aktiveWaffe;
         }
@@ -27,7 +29,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         public abstract void WaehleAngriff();
         public abstract void WaehleVerteidigung();
 
-        public bool IstBesiegt() => Leben <= 0;
+        public bool IstBesiegt() => LebensPunkte <= 0;
 
         public int VerursachterSchaden()
         {
@@ -39,8 +41,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         }
         public virtual void ErhalteSchaden(int schaden)
         {
-            Leben -= schaden;
-            if (Leben < 0) Leben = 0;
+            LebensPunkte -= schaden;
+            if (LebensPunkte < 0) LebensPunkte = 0;
         }
         public virtual void Rede() { }
         public virtual void NimmBelohnungAuf(string name, List<Item> belohnungen) { }

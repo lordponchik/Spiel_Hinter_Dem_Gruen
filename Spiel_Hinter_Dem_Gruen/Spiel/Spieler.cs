@@ -23,7 +23,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         public Dictionary<string, List<Item>> Inventar { get; private set; } = new Dictionary<string, List<Item>>();
         public bool IstErsterSpiel { get; set; }
         public int WeltLevel { get; set; }
-        public Spieler(Action<List<string>, bool> rendering, bool istErsterSpiel = false, int weltlevel = 1, string name = "", int leben = 100, int schaden = 10) : base(name, leben, schaden)
+        public Spieler(Action<List<string>, bool> rendering, bool istErsterSpiel = false, int weltlevel = 1, string name = "", int lebensPunkte = 100, int maxLebensPunkte = 100, int Max = 100, int schaden = 10) : base(name, lebensPunkte, maxLebensPunkte, schaden)
         {
             Inventar["Heilmittel"] = new List<Item>();
             Inventar["Waffe"] = new List<Item>();
@@ -82,9 +82,9 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 "",
                 $"Welt-Stufe: {WeltLevel}",
                 "",
-                $"Lebenspunkte: {Leben}/100",
+                $"Lebenspunkte: {LebensPunkte} / {MaxLebensPunkte}",
                 "",
-                $"Schaden: {Schaden}",
+                $"Schaden: {Schaden / 2} - {Schaden}",
                 "",
                 $"Waffe: {waffeInfo}",
             };
@@ -130,7 +130,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             base.ErhalteSchaden(schaden);
 
 
-            if (Leben == 0)
+            if (LebensPunkte == 0)
             {
                 Console.Clear();
                 StatistikVerwaltung.SpeicherStatistic();
@@ -251,9 +251,9 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
         public void ErhalteHeilung(int heilung)
         {
-            Leben += heilung;
+            LebensPunkte += heilung;
 
-            if (Leben > 100) Leben = 100;
+            if (LebensPunkte > MaxLebensPunkte) LebensPunkte = MaxLebensPunkte;
 
             ZeigeSpielerInformation();
         }

@@ -20,7 +20,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         public List<Item> Auszeichnung { get { return _auszeichnung; } }
         public List<string> Sprechzeilen { get; }
 
-        public Gegner(string name, int leben, int schaden, List<string> sprechzeilen, Waffe? waffe = null) : base(name, leben, schaden, waffe)
+        public Gegner(string name, int lebenPunkte, int maxLebensPunkte, int schaden, List<string> sprechzeilen, Waffe? waffe = null) : base(name, lebenPunkte, maxLebensPunkte , schaden, waffe)
         {
             Sprechzeilen = sprechzeilen;
             ErzeugeAuszeichnungen();
