@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-using Spiel_Hinter_Dem_Gruen.Items;
+﻿using Spiel_Hinter_Dem_Gruen.Items;
+using Spiel_Hinter_Dem_Gruen.Ressourcen;
 using Spiel_Hinter_Dem_Gruen.Statistik;
 using Spiel_Hinter_Dem_Gruen.UI;
 
@@ -13,10 +7,10 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Kampf
     {
-        private static List<string> _str = new List<string>();
+        private static List<string> _beschreibungZeilen = new List<string>();
         private static Seitenbereich _seitenbereich = new Seitenbereich();
         private static ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
-
+        private static List<string> _kampfanleitung = LadeJson.LadenDatei<KampfanleitungDaten>("Kampfanleitung.json").KampfanleitungNachricht;
         private static Dictionary<string, List<string>> _kampfLog = new Dictionary<string, List<string>>();
 
         public static bool Rundenkampf(Kaempfer spieler, Kaempfer gegner)
@@ -28,7 +22,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             {
                 _seitenbereich.Reset();
 
-                AktualisiereKampfLog();
+                AktualisiereKampfLog(spieler, gegner);
                 spieler.WaehleAngriff();
                 spieler.WaehleVerteidigung();
 
@@ -44,72 +38,66 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 SpielerStatistik.ErhoeheSiege();
 
                 _seitenbereich.Reset();
-                AktualisiereKampfLog();
+                AktualisiereKampfLog(spieler, gegner);
 
                 if (gegner is Gegner g) spieler.NimmBelohnungAuf(spieler.Name, g.Auszeichnung);
             }
 
+            return gegner.LebensPunkte == 0;     
+        }
 
-            return gegner.LebensPunkte == 0;
+        public static void AktualisiereKampfLog(Kaempfer spieler, Kaempfer gegner)
+        {
 
+            _beschreibungZeilen.Clear();
 
-            void AktualisiereKampfLog()
+            foreach (KeyValuePair<string, List<string>> eintrag in _kampfLog)
             {
 
-                _str.Clear();
-
-                foreach (KeyValuePair<string, List<string>> eintrag in _kampfLog)
+                if (eintrag.Key == "Beschreibung")
                 {
-
-                    if (eintrag.Key == "Beschreibung")
+                    if (eintrag.Value.Count == 0)
                     {
-                        if (eintrag.Value.Count == 0)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            _str.Add(eintrag.Value[eintrag.Value.Count - 2]);
-                            _str.Add(eintrag.Value[eintrag.Value.Count - 1]);
-                            // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 2]);
-                            //_seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 1]);
-                        }
+                        continue;
                     }
                     else
                     {
-                        _str.AddRange(eintrag.Value);
-                        //   _seitenbereich.EinstellenAusgabeInformation(eintrag.Value);
-                        // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[i]);
+                        _beschreibungZeilen.Add(eintrag.Value[eintrag.Value.Count - 2]);
+                        _beschreibungZeilen.Add(eintrag.Value[eintrag.Value.Count - 1]);
                     }
                 }
-                if (gegner.LebensPunkte <= 0)
+                else
                 {
-                    List<string> texte = new List<string>();
+                    _beschreibungZeilen.AddRange(eintrag.Value);
+                }
+            }
+            if (gegner.LebensPunkte <= 0)
+            {
+                List<string> texte = new List<string>();
 
-                    texte.Add("");
-                    texte.Add("------ Auszeichnungen -----");
+                texte.Add("");
+                texte.Add("------ Auszeichnungen -----");
 
-                    if (gegner is Gegner geg)
+                if (gegner is Gegner geg)
+                {
+                    foreach (Item item in geg.Auszeichnung)
                     {
-                        foreach (Item item in geg.Auszeichnung)
+
+
+                        if (item is Heilmittel heilmittel)
                         {
-                           
+                            texte.Add($"{heilmittel.Name} - Anzahl: {heilmittel.Anzahl}");
+                            if (spieler is Spieler s) s.FuegeItemHinzu(heilmittel);
 
-                            if (item is Heilmittel heilmittel)
-                            {
-                                texte.Add($"{heilmittel.Name} - Anzahl: {heilmittel.Anzahl}");
-                                if (spieler is Spieler s) s.FuegeItemHinzu(heilmittel);
-
-                            }
-                            if (item is Waffe waffe) texte.Add($"{waffe.Name} - +{waffe.Schadenswert} Max-Schaden");
                         }
+                        if (item is Waffe waffe) texte.Add($"{waffe.Name} - +{waffe.Schadenswert} Max-Schaden");
                     }
-
-                    _str.AddRange(texte);
                 }
 
-                _seitenbereich.EinstellenAusgabeInformation(_str);
+                _beschreibungZeilen.AddRange(texte);
             }
+
+            _seitenbereich.EinstellenAusgabeInformation(_beschreibungZeilen);
         }
 
         private static void BerechnungSchaden(Kaempfer angreifer, Kaempfer verteidiger, Dictionary<string, List<string>> kampflog)
@@ -132,21 +120,12 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
         public static void Kampfanweisung()
         {
-            List<string> anweisungen = new List<string> {
-                "Kampfanleitung\n",
-                "\n",
-                "Im Kampf musst du zwei Entscheidungen treffen: Wohin willst du deinen Gegner treffen – Kopf, Rumpf oder Beine?\n",
-                "Danach wählst du aus, welchen Teil deines Körpers du schützen möchtest.\n",
-                "Dein Gegner tut dasselbe – außer es handelt sich um ein Tier, denn Tiere greifen nur an und verteidigen sich nicht.\n",
-                "Überlege gut, wo du zuschlägst und was du schützt – der richtige Treffer kann den Ausgang des Kampfes entscheiden!\n"
-            };
-
             Console.Clear();
 
-            anweisungen.Add("\n");
-            anweisungen.Add("Hau auf <Enter>, sonst hau ich dich!");
+            _kampfanleitung.Add("\n");
+            _kampfanleitung.Add("Hau auf <Enter>, sonst hau ich dich!");
 
-            _zentrierterBereich.EinstellenAusgabeInformation(anweisungen, true);
+            _zentrierterBereich.EinstellenAusgabeInformation(_kampfanleitung, true);
 
             ConsoleKey key;
 
@@ -155,8 +134,6 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 key = Console.ReadKey(true).Key;
             }
             while (key != ConsoleKey.Enter);
-
-
         }
     }
 }
