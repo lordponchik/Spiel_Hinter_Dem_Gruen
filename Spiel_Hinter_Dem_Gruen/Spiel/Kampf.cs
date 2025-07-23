@@ -5,6 +5,7 @@ using System.Reflection.Metadata;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using Spiel_Hinter_Dem_Gruen.Items;
 using Spiel_Hinter_Dem_Gruen.Statistik;
 using Spiel_Hinter_Dem_Gruen.UI;
 
@@ -12,8 +13,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Kampf
     {
+        private static List<string> _str = new List<string>();
         private static Seitenbereich _seitenbereich = new Seitenbereich();
-        private static Kopfbereich _kopfbereich = new Kopfbereich();
         private static ZentrierterBereich _zentrierterBereich = new ZentrierterBereich();
 
         private static Dictionary<string, List<string>> _kampfLog = new Dictionary<string, List<string>>();
@@ -25,11 +26,9 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
             while (!spieler.IstBesiegt() && !gegner.IstBesiegt())
             {
-
                 _seitenbereich.Reset();
 
                 AktualisiereKampfLog();
-
                 spieler.WaehleAngriff();
                 spieler.WaehleVerteidigung();
 
@@ -38,31 +37,31 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
                 BerechnungSchaden(spieler, gegner, _kampfLog);
                 BerechnungSchaden(gegner, spieler, _kampfLog);
+            }
+
+            if (gegner.LebensPunkte == 0)
+            {
+                SpielerStatistik.ErhoeheSiege();
 
                 _seitenbereich.Reset();
-
                 AktualisiereKampfLog();
 
+                if (gegner is Gegner g) spieler.NimmBelohnungAuf(spieler.Name, g.Auszeichnung);
             }
 
-            if(gegner.Leben == 0)
-            {
-               if(gegner is Gegner g) spieler.NimmBelohnungAuf(spieler.Name, g.Auszeichnung);
-               if (gegner is Tier t) spieler.NimmBelohnungAuf(spieler.Name, t.Auszeichnung);
 
-
-                SpielerStatistik.ErhoeheSiege();
-            }
-
-            return gegner.Leben == 0;
+            return gegner.LebensPunkte == 0;
 
 
             void AktualisiereKampfLog()
             {
+
+                _str.Clear();
+
                 foreach (KeyValuePair<string, List<string>> eintrag in _kampfLog)
                 {
 
-                    if (eintrag.Key == "beschreibung")
+                    if (eintrag.Key == "Beschreibung")
                     {
                         if (eintrag.Value.Count == 0)
                         {
@@ -70,17 +69,46 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                         }
                         else
                         {
-                           // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 2]);
+                            _str.Add(eintrag.Value[eintrag.Value.Count - 2]);
+                            _str.Add(eintrag.Value[eintrag.Value.Count - 1]);
+                            // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 2]);
                             //_seitenbereich.EinstellenAusgabeInformation(eintrag.Value[eintrag.Value.Count - 1]);
                         }
                     }
                     else
                     {
-
-                            _seitenbereich.EinstellenAusgabeInformation(eintrag.Value);
-                          // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[i]);
+                        _str.AddRange(eintrag.Value);
+                        //   _seitenbereich.EinstellenAusgabeInformation(eintrag.Value);
+                        // _seitenbereich.EinstellenAusgabeInformation(eintrag.Value[i]);
                     }
                 }
+                if (gegner.LebensPunkte <= 0)
+                {
+                    List<string> texte = new List<string>();
+
+                    texte.Add("");
+                    texte.Add("------ Auszeichnungen -----");
+
+                    if (gegner is Gegner geg)
+                    {
+                        foreach (Item item in geg.Auszeichnung)
+                        {
+                           
+
+                            if (item is Heilmittel heilmittel)
+                            {
+                                texte.Add($"{heilmittel.Name} - Anzahl: {heilmittel.Anzahl}");
+                                if (spieler is Spieler s) s.FuegeItemHinzu(heilmittel);
+
+                            }
+                            if (item is Waffe waffe) texte.Add($"{waffe.Name} - +{waffe.Schadenswert} Max-Schaden");
+                        }
+                    }
+
+                    _str.AddRange(texte);
+                }
+
+                _seitenbereich.EinstellenAusgabeInformation(_str);
             }
         }
 
@@ -88,19 +116,17 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
         {
             if (angreifer.KoerperTeilAngriff == verteidiger.KoerperTeilVerteidigung)
             {
-
-                kampflog["beschreibung"].Add($"{angreifer.Name} greift an, aber {verteidiger.Name} blockt!");
-
+                kampflog["Beschreibung"].Add($"{angreifer.Name} greift an, aber {verteidiger.Name} blockt!");
             }
             else
             {
                 int schaden = angreifer.VerursachterSchaden();
 
-                kampflog["beschreibung"].Add($"{angreifer.Name} trifft {verteidiger.Name} für {schaden} Schaden!");
+                kampflog["Beschreibung"].Add($"{angreifer.Name} trifft {verteidiger.Name} für {schaden} Schaden!");
 
                 verteidiger.ErhalteSchaden(schaden);
 
-                kampflog[verteidiger.Name][1] = $"HP: {verteidiger.Leben}";
+                kampflog[verteidiger.Name][1] = $"Lebenspunkte: {verteidiger.LebensPunkte} / {verteidiger.MaxLebensPunkte}";
             }
         }
 
