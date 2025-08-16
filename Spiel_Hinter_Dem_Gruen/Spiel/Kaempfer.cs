@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spiel_Hinter_Dem_Gruen.Items;
+using Spiel_Hinter_Dem_Gruen.UI;
 
 namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
-    abstract class Kaempfer
+     class Kaempfer
     {
         private static Random _zufall = new Random();
+        private static readonly string[] Koerperteile = { "Kopf", "Rumpf", "Beine" };
         public string Name { get; protected set; }
         public int LebensPunkte { get; protected set; }
         public int MaxLebensPunkte { get; protected set; }
@@ -26,8 +28,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             AktiveWaffe = aktiveWaffe;
         }
 
-        public abstract void WaehleAngriff();
-        public abstract void WaehleVerteidigung();
+        public virtual void WaehleAngriff() => KoerperTeilAngriff = _zufall.Next(0, Koerperteile.Length);
+        public virtual void WaehleVerteidigung() => KoerperTeilVerteidigung = _zufall.Next(0, Koerperteile.Length);
 
         public bool IstBesiegt() => LebensPunkte <= 0;
 
