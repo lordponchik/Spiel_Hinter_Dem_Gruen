@@ -42,8 +42,8 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 },
             };
 
-            if (!string.IsNullOrEmpty(spielerWaffe)) logs["Spieler"].Add($"{spielerWaffe}");
-            if (!string.IsNullOrEmpty(gegnerWaffe)) logs["Gegner"].Add($"{gegnerWaffe}");
+            if (!string.IsNullOrEmpty(spielerWaffe)) logs[spieler.Name].Add($"{spielerWaffe}");
+            if (!string.IsNullOrEmpty(gegnerWaffe)) logs[gegner.Name].Add($"{gegnerWaffe}");
 
             return logs;
         }
