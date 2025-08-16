@@ -8,11 +8,10 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 {
     class Szene
     {
-        public string Titel { get; set; }
-        public string Name { get; set; }
-        public List<string> Beschreibung { get; set; }
+        public string Titel { get; set; } = String.Empty;
+        public string Name { get; set; } = String.Empty;
+        public List<string> Beschreibung { get; set; }  = new List<string>();
 
-        public List<string>[] gebietBeschreibungen { get; set; }
-        public List<Kaempfer> Gegner { get; set; }
+        public List<List<string>> gebietBeschreibungen { get; set; } = new List<List<string>>();
     }
 }
