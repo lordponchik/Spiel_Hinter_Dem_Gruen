@@ -17,11 +17,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
 
         public readonly string[] _ortListe = ["ork_1", "ork_2", "ork_3"];
         private Dictionary<string, Szene> _weltkarte = WeltkarteLoader.LadeWeltkarteAusJson("Szenen.json");
-        public Weltkarte()
-        {
-
-        }
-
+        public Weltkarte() { }
         public void ZeigeKapitel(string aktuellerOrtId)
         {
             Console.Clear();
@@ -29,6 +25,7 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
             Szene aktuelleSzene = _weltkarte[aktuellerOrtId];
 
             List<string> gesamtText = new List<string>();
+
             gesamtText.AddRange(new List<string> { $"{aktuelleSzene.Titel}\n", "\n", $"Ort: {aktuelleSzene.Name}\n", "\n" });
             gesamtText.AddRange(aktuelleSzene.Beschreibung);
             gesamtText.Add("\n");
@@ -43,16 +40,15 @@ namespace Spiel_Hinter_Dem_Gruen.Spiel
                 key = Console.ReadKey(true).Key;
             }
             while (key != ConsoleKey.Enter);
-
         }
-       
+
         public List<List<string>> ZeigeGebietBeschreibung(string aktuellerOrtId)
         {
             Szene aktuelleSzene = _weltkarte[aktuellerOrtId];
 
             return aktuelleSzene.gebietBeschreibungen;
         }
-        
+
         public List<Gegner> ZeigeGebietGegner(string aktuellerOrtId)
         {
             GegnerDaten gegnerDaten = new GegnerDaten();
